@@ -1,3 +1,12 @@
 function conn() {
-    alert('hello');
+    var apiKey = "";
+
+    $.ajax({
+        url: "https://www.bungie.net/platform/Destiny/Manifest/InventoryItem/1274330687/",
+        headers: {
+            "X-API-Key": apiKey
+        }
+    }).done(function (json) {
+        console.log(json.Response.data.inventoryItem.itemName); //Gjallarhorn
+    });
 }
