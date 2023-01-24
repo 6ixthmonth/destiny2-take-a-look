@@ -1,12 +1,29 @@
 function conn() {
-    var apiKey = "";
+    // var apiKey = "";
+
+    // $.ajax({
+    //     url: "https://www.bungie.net/platform/Destiny/Manifest/InventoryItem/1274330687/",
+    //     headers: {
+    //         "X-API-Key": apiKey
+    //     }
+    // }).done(function (json) {
+    //     console.log(json.Response.data.inventoryItem.itemName); //Gjallarhorn
+    // });
 
     $.ajax({
-        url: "https://www.bungie.net/platform/Destiny/Manifest/InventoryItem/1274330687/",
+        url: "",
+        type: "",
+        data: {
+
+        },
         headers: {
-            "X-API-Key": apiKey
+            'X-CSRFTOKEN': '{{ csrf_token }}'
+        },
+        success: function() {
+
+        },
+        error: function() {
+
         }
-    }).done(function (json) {
-        console.log(json.Response.data.inventoryItem.itemName); //Gjallarhorn
     });
 }
