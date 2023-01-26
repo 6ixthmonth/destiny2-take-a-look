@@ -13,17 +13,17 @@ function conn() {
     $.ajax({
         url: "",
         type: "",
-        data: {
+        // data: {
 
-        },
+        // },
         headers: {
             'X-CSRFTOKEN': '{{ csrf_token }}'
         },
-        success: function() {
-
+        success: function(res) {
+            console.log(res);
         },
-        error: function() {
-
+        error: function(e) {
+            console.log(e);
         }
     });
 }
