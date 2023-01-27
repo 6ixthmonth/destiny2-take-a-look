@@ -7,4 +7,4 @@ import json
 def conntest(request):
     # data = json.loads(request.body)
 
-    return JsonResponse({'itemName': itemName})
+    return JsonResponse({'itemName': 'hello'})
