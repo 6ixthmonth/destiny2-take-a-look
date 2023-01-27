@@ -21,7 +21,8 @@ router.register(r'users', UserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls')),
-    # path('', TemplateView.as_view(template_name='commons/home.html')),
+    # path('', include(router.urls)),
+    # path('api-auth/', include('rest_framework.urls')),
+    path('', TemplateView.as_view(template_name='commons/index.html')),
+    path('apitest/', include('apitest.urls')),
 ]

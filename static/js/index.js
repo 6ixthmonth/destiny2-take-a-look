@@ -11,8 +11,8 @@ function conn() {
     // });
 
     $.ajax({
-        url: "",
-        type: "",
+        url: "apitest/conntest/",
+        type: "get",
         // data: {
 
         // },
