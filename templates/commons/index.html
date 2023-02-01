@@ -2,10 +2,14 @@
 
 {% block title %}INDEX{% endblock title %}
 
-{% block static %}
+{% load static %}
+{% block style %}
 <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+{% endblock style %}
+
+{% block script %}
 <script src='{% static "js/index.js" %}'></script>
-{% endblock static %}
+{% endblock script %}
 
 {% block body %}
 <h1>INDEX</h1>
