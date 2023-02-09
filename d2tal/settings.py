@@ -15,6 +15,8 @@ env = environ.Env(
 )
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = env('SECRET_KEY')
+API_KEY = env('API_KEY')
+CLIENT_ID = env('CLIENT_ID')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

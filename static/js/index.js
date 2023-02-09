@@ -1,6 +1,6 @@
-function conn() {
+function req() {
     $.ajax({
-        url: "apitest/conntest/",
+        url: "d2api/req/",
         headers: {
             "X-CSRFTOKEN": "{{ csrf_token }}"
         },
