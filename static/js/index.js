@@ -1,6 +1,6 @@
 function req() {
     $.ajax({
-        url: "d2api/req/",
+        url: "{% url 'req' %}",
         headers: {
             "X-CSRFTOKEN": "{{ csrf_token }}"
         },
