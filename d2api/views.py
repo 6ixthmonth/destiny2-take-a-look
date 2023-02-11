@@ -8,6 +8,10 @@ import requests
 def req(request):
     # data = json.loads(request.body)
 
+    base_auth_url = "https://www.bungie.net/en/OAuth/Authorize"
+    redirect_url = "https://127.0.0.1:8000/"
+    token_url = "https://www.bungie.net/Platform/App/OAuth/token/"
+
     HEADERS = {"X-API-Key": settings.API_KEY}
     # membershipType = 0
     # destinyMembershipId = 0
