@@ -1,1 +1,20 @@
 # destiny2-take-a-look
+
+# library
+- django-sslserver
+- djangorestframework
+  - pytz
+  - Django
+    - asgiref
+    - sqlparse
+    - tzdata
+- django-environ
+- requests-oauthlib
+  - oauthlib
+  - requests
+    - certifi
+    - charset-normalizer
+    - idna
+    - urllib3
+- pip
+- setuptools
