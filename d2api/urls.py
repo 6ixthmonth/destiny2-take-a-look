@@ -2,6 +2,9 @@ from django.urls import path
 
 from d2api import views
 
+app_name = 'd2api'
 urlpatterns = [
-    path('req/', views.req, name='req')
+    path('getAuth/', views.get_auth, name='get_auth'),
+    path('refreshToken/', views.refresh_token, name='refresh_token'),
+    path('requestData/', views.request_data, name='request_data')
 ]
