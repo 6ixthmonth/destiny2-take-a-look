@@ -1,9 +1,11 @@
-from django.shortcuts import render
-from django.http import JsonResponse
-from django.conf import settings
+import json
 
-# import json
 import requests
+from django.conf import settings
+from django.http import JsonResponse
+from django.shortcuts import render
+from requests_oauthlib import OAuth2Session
+
 
 def req(request):
     # data = json.loads(request.body)
