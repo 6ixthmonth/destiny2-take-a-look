@@ -19,11 +19,9 @@
         });
     }
 
-    function req() {
-        // alert(location.search);
-
+    function requstData() {
         $.ajax({
-            url: "{% url 'd2api:req' %}",
+            url: "{% url 'd2api:req_data' %}",
             type: "post",
             data: JSON.stringify({
                 'auth_res': location.search
@@ -44,6 +42,6 @@
 
 {% block body %}
 <h1>DESTINY 2 - TAKE A LOOK</h1>
-<button onclick="getAuth();">Authorization</button>
-<button onclick="req();">REQUEST DATA</button>
+<button onclick="getAuth();">Get Authorization</button>
+<button onclick="requstData();">REQUEST DATA</button>
 {% endblock body %}

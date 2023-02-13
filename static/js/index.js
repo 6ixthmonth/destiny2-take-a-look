@@ -1,5 +1,4 @@
 function getAuth() {
-    alert("{% url 'd2api:get_auth' %}");
     $.ajax({
         url: "{% url 'd2api:get_auth' %}"
     }).done(function (res) {
@@ -9,14 +8,16 @@ function getAuth() {
     });
 }
 
-function req() {
-    // alert(location.search);
-
+function requestData() {
     $.ajax({
-        url: "/d2api/req/",
+        url: "{% url 'd2api:req_data' %}",
+        type: "post",
         data: JSON.stringify({
             'auth_res': location.search
-        })
+        }),
+        headers: {
+            'X-CSRFTOKEN': "{{ csrf_token }}"
+        }
     }).done(function (res) {
         console.log("success");
         console.log(res);
