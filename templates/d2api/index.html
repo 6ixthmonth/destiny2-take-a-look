@@ -8,10 +8,42 @@
 
 {% block script %}
 <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-<script src='{% static "js/index.js" %}'></script>
+<script>
+    function getAuth() {
+        $.ajax({
+            url: "{% url 'd2api:get_auth' %}"
+        }).done(function (res) {
+            location.href = res['auth_response_url']
+        }).fail(function (e) {
+            console.log(e);
+        });
+    }
+
+    function req() {
+        // alert(location.search);
+
+        $.ajax({
+            url: "{% url 'd2api:req' %}",
+            type: "post",
+            data: JSON.stringify({
+                'auth_res': location.search
+            }),
+            headers: {
+                'X-CSRFTOKEN': "{{ csrf_token }}"
+            }
+        }).done(function (res) {
+            console.log("success");
+            console.log(res);
+        }).fail(function (e) {
+            console.log("error");
+            console.log(e);
+        });
+    }
+</script>
 {% endblock script %}
 
 {% block body %}
 <h1>DESTINY 2 - TAKE A LOOK</h1>
+<button onclick="getAuth();">Authorization</button>
 <button onclick="req();">REQUEST DATA</button>
 {% endblock body %}
