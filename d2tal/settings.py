@@ -3,9 +3,6 @@ from pathlib import Path
 
 import environ
 
-env = environ.Env(
-    DEBUG=(bool, False)
-)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -16,10 +13,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+env = environ.Env(
+    DEBUG=(bool, False)
+)
+
 SECRET_KEY = env('SECRET_KEY')
+
+# Bungie.net Platform API key
 API_KEY = env('API_KEY')
 CLIENT_ID = env('CLIENT_ID')
 CLIENT_SECRET=env('CLIENT_SECRET')
+
+# Destiny character info
+TITAN_ID = env('TITAN_ID')
+HUNTER_ID = env('HUNTER_ID')
+WARLOCK_ID = env('WARLOCK_ID')
+DESTINY_MEMBERSHIP_ID = env('DESTINY_MEMBERSHIP_ID')
+MEMBERSHIP_TYPE = env('MEMBERSHIP_TYPE')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = env('DEBUG')
