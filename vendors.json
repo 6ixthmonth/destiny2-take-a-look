@@ -1,0 +1,107 @@
+{
+    "vendorHash": {
+        "69482069": "Commander Zavala",
+        "248695599": "The Drifter",
+        "3603221665": "Lord Shaxx"
+    },
+    "vendorItemIndex": {
+        "105": {
+            "vendorHash": 69482069,
+            "class": "Hunter",
+            "itemHash": 619556600,
+            "itemName": "Photosuede Grips"
+        },
+        "106": {
+            "vendorHash": 69482069,
+            "class": "Hunter",
+            "itemHash": 469333264,
+            "itemName": "Photosuede Vest"
+        },
+        "107": {
+            "vendorHash": 69482069,
+            "class": "Hunter",
+            "itemHash": 3691455821,
+            "itemName": "Photosuede Cloak"
+        },
+        "108": {
+            "vendorHash": 69482069,
+            "class": "Hunter",
+            "itemHash": 4076604385,
+            "itemName": "Photosuede Mask"
+        },
+        "109": {
+            "vendorHash": 69482069,
+            "class": "Hunter",
+            "itemHash": 2949791538,
+            "itemName": "Photosuede Strides"
+        },
+        "110": {
+            "vendorHash": 69482069,
+            "class": "Titan",
+            "itemHash": 212971972,
+            "itemName": "Photosuede Gauntlets"
+        },
+        "111": {
+            "vendorHash": 69482069,
+            "class": "Titan",
+            "itemHash": 2999584444,
+            "itemName": "Photosuede Plate"
+        },
+        "112": {
+            "vendorHash": 69482069,
+            "class": "Titan",
+            "itemHash": 456484913,
+            "itemName": "Photosuede Mark"
+        },
+        "113": {
+            "vendorHash": 69482069,
+            "class": "Titan",
+            "itemHash": 1537128821,
+            "itemName": "Photosuede Helmet"
+        },
+        "114": {
+            "vendorHash": 69482069,
+            "class": "Titan",
+            "itemHash": 2143618030,
+            "itemName": "Photosuede Greaves"
+        },
+        "115": {
+            "vendorHash": 69482069,
+            "class": "Warlock",
+            "itemHash": 671664021,
+            "itemName": "Photosuede Gloves"
+        },
+        "116": {
+            "vendorHash": 69482069,
+            "class": "Warlock",
+            "itemHash": 1080431755,
+            "itemName": "Photosuede Robes"
+        },
+        "117": {
+            "vendorHash": 69482069,
+            "class": "Warlock",
+            "itemHash": 4156676002,
+            "itemName": "Photosuede Bond"
+        },
+        "118": {
+            "vendorHash": 69482069,
+            "class": "Warlock",
+            "itemHash": 3611754012,
+            "itemName": "Photosuede Hood"
+        },
+        "119": {
+            "vendorHash": 69482069,
+            "class": "Warlock",
+            "itemHash": 2713820407,
+            "itemName": "Photosuede Boots"
+        }
+    },
+    "statHash": {
+        "2996146975": "Mobility",
+        "392767087": "Resilience",
+        "1943323491": "Recovery",
+        "1735777505": "Discipline",
+        "144602215": "Intellect",
+        "4244567218": "Strength"
+    }
+}
