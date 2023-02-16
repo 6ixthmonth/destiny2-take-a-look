@@ -1,10 +1,11 @@
 import json
+import pprint
 
-# import requests
 from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from requests_oauthlib import OAuth2Session
+
 
 API_KEY = settings.API_KEY
 CLIENT_ID = settings.CLIENT_ID
@@ -21,8 +22,6 @@ AUTHORIZATION_URL = "https://www.bungie.net/en/oauth/authorize"
 TOKEN_URL = "https://www.bungie.net/platform/app/oauth/token/"
 
 BASE_PATH = "https://www.bungie.net/Platform"
-GET_VENDORS_URL = r"/Destiny2/{membershipType}/Profile/{destinyMembershipId}/Character/{characterId}/Vendors/"
-GET_VENDOR_URL = r"/Destiny2/{membershipType}/Profile/{destinyMembershipId}/Character/{characterId}/Vendors/{vendorHash}/"
 
 
 def get_auth(request):
@@ -51,21 +50,25 @@ def request_data(request):
     characterId = TITAN_ID
     destinyMembershipId = DESTINY_MEMBERSHIP_ID
     membershipType = MEMBERSHIP_TYPE
-    vendorHash = 69482069  # <Vendor "Commander Zavala">
-    components = "400"
+    # vendorHash = 69482069  # Commander Zavala
+    # vendorHash = 248695599  # The Drifter
+    # vendorHash = 3603221665  # Lord Shaxx
+    vendor_hash_list = [69482069, 248695599, 3603221665]
+    components = "402,304"  # ItemStats
 
     destiny2 = OAuth2Session(client_id=CLIENT_ID, token=request.session['oauth_token'])
     # getVendors
-    # endpoint_url = f"https://www.bungie.net/Platform/Destiny2/{membershipType}/Profile/{destinyMembershipId}/Character/{characterId}/Vendors/{vendorHash}/?components={components}"
+    endpoint_url = f"https://www.bungie.net/Platform/Destiny2/{membershipType}/Profile/{destinyMembershipId}/Character/{characterId}/Vendors/?components={components}"
     # getVendor
-    endpoint_url = f"https://www.bungie.net/Platform/Destiny2/{membershipType}/Profile/{destinyMembershipId}/Character/{characterId}/Vendors/{vendorHash}/?components={components}"
+    # endpoint_url = f"https://www.bungie.net/Platform/Destiny2/{membershipType}/Profile/{destinyMembershipId}/Character/{characterId}/Vendors/{vendorHash}/?components={components}"
     headers = {"X-API-Key": API_KEY}
-    # response = requests.get(url=endpoint_url, headers=headers)
     response = destiny2.get(url=endpoint_url, headers=headers)
 
     print(response.status_code)
-    # print(response.text)
-    # print(response.content)
-    print(json.loads(response.content))
+    result = response.json()['Response']['itemComponents']
 
-    return JsonResponse({'key': 'value'})
+    for vendor_hash in vendor_hash_list:
+        pp = pprint.PrettyPrinter(indent=4)
+        pp.pprint(result[str(vendor_hash)]['stats']['data'])
+
+    return JsonResponse(result)
