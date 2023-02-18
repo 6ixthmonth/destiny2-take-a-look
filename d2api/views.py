@@ -4,7 +4,7 @@ import pprint
 from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
-from requests_oauthlib import OAuth2Session
+from requests_oauthlib import OAuth2Session, TokenUpdated
 
 
 API_KEY = settings.API_KEY
@@ -20,13 +20,12 @@ MEMBERSHIP_TYPE = settings.MEMBERSHIP_TYPE
 REDIRECT_URI = "https://127.0.0.1:8000/"
 AUTHORIZATION_URL = "https://www.bungie.net/en/oauth/authorize"
 TOKEN_URL = "https://www.bungie.net/platform/app/oauth/token/"
-
 BASE_PATH = "https://www.bungie.net/Platform"
 
 
 def get_auth(request):
-    destiny2 = OAuth2Session(client_id=CLIENT_ID, redirect_uri=REDIRECT_URI)
-    authorization_url, state = destiny2.authorization_url(AUTHORIZATION_URL)
+    oauth = OAuth2Session(client_id=CLIENT_ID, redirect_uri=REDIRECT_URI)
+    authorization_url, state = oauth.authorization_url(url=AUTHORIZATION_URL)
     request.session['oauth_state'] = state
 
     return JsonResponse({'authorization_url': authorization_url})
@@ -35,8 +34,9 @@ def get_auth(request):
 def fetch_token(request):
     data = json.loads(request.body)
 
-    destiny2 = OAuth2Session(client_id=CLIENT_ID, state=request.session['oauth_state'])
-    token = destiny2.fetch_token(token_url=TOKEN_URL, client_secret=CLIENT_SECRET, authorization_response=REDIRECT_URI+data['auth_res'])
+    oauth = OAuth2Session(client_id=CLIENT_ID, state=request.session['oauth_state'])
+    token = oauth.fetch_token(token_url=TOKEN_URL, authorization_response=REDIRECT_URI+data['auth_res'], client_secret=CLIENT_SECRET)
+
     request.session['oauth_token'] = token
 
     return JsonResponse(token)
@@ -56,13 +56,16 @@ def request_data(request):
     vendor_hash_list = [69482069, 248695599, 3603221665]
     components = "402,304"  # ItemStats
 
-    destiny2 = OAuth2Session(client_id=CLIENT_ID, token=request.session['oauth_token'])
-    # getVendors
-    endpoint_url = f"https://www.bungie.net/Platform/Destiny2/{membershipType}/Profile/{destinyMembershipId}/Character/{characterId}/Vendors/?components={components}"
-    # getVendor
-    # endpoint_url = f"https://www.bungie.net/Platform/Destiny2/{membershipType}/Profile/{destinyMembershipId}/Character/{characterId}/Vendors/{vendorHash}/?components={components}"
+    extra = {'client_id': CLIENT_ID, 'client_secret': CLIENT_SECRET}
     headers = {"X-API-Key": API_KEY}
-    response = destiny2.get(url=endpoint_url, headers=headers)
+    endpoint_url = f"https://www.bungie.net/Platform/Destiny2/{membershipType}/Profile/{destinyMembershipId}/Character/{characterId}/Vendors/?components={components}"
+    try:
+        oauth = OAuth2Session(client_id=CLIENT_ID, token=request.session['oauth_token'], auto_refresh_url=TOKEN_URL, auto_refresh_kwargs=extra)
+        response = oauth.get(url=endpoint_url, headers=headers)
+    except TokenUpdated as e:
+        print("====================Updated====================")
+        request.session['oauth_token'] = e.token
+        response = oauth.get(url=endpoint_url, headers=headers)
 
     print(response.status_code)
     result = response.json()['Response']['itemComponents']
