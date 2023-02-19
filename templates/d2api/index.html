@@ -32,6 +32,7 @@
                 'X-CSRFTOKEN': "{{ csrf_token }}"
             }
         }).done(function (res) {
+            console.log(res);
             accessToken = res['access_token'];
         }).fail(function (e) {
             console.log(e);
