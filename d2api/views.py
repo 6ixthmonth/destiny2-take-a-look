@@ -120,7 +120,7 @@ def request_data(request):
 
             for vendor_item_index in VENDOR_ITEM_INDEX_LIST[i][j]:
                 print(f"\t{vendor_item_index=}")
-                new_sales_item = SalesItem.objects.create(item_hash=sales_data[str(vendor_item_index)]['itemHash'], vendor_hash=vendor_hash)
+                new_sales_item = SalesItem.objects.create(item_hash_id=sales_data[str(vendor_item_index)]['itemHash'], vendor_hash_id=vendor_hash)
                 stats = stats_data[str(vendor_item_index)]['stats']
                 for stat_hash in STAT_HASH_LIST:
                     print(f"\t\t{stat_hash=}, value={stats[str(stat_hash)]['value']}")
@@ -140,5 +140,6 @@ def request_data(request):
                         case _:
                             pass
                 print(new_sales_item)
+                new_sales_item.save()
 
     return JsonResponse(stats_data)
