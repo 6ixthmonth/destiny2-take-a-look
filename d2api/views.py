@@ -6,6 +6,8 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from requests_oauthlib import OAuth2Session, TokenUpdated
 
+from d2api.models import Item, SalesItem, Vendor
+
 API_KEY = settings.API_KEY
 EXTRA = {'client_id': settings.CLIENT_ID, 'client_secret': settings.CLIENT_SECRET}
 
@@ -40,6 +42,23 @@ VENDOR_ITEM_INDEX_LIST = [
         # [131, 132, 133, 134],
     ],  # Warlock
 ]
+ITEM_INDEX_TO_ITEM_HASH = {
+    '110': 212971972,
+    '111': 2999584444,
+    '112': 456484913,
+    '113': 1537128821,
+    '114': 2143618030,
+    '105': 619556600,
+    '106': 469333264,
+    '107': 3691455821,
+    '108': 4076604385,
+    '109': 2949791538,
+    '115': 671664021,
+    '116': 1080431755,
+    '117': 4156676002,
+    '118': 3611754012,
+    '119': 2713820407,
+}
 STAT_HASH_LIST = [
     2996146975,  # Mobility
     392767087,  # Resilience
@@ -64,6 +83,7 @@ def fetch_token(request):
 
     oauth = OAuth2Session(client_id=EXTRA['client_id'], state=request.session['oauth_state'])
     token = oauth.fetch_token(token_url=TOKEN_URL, authorization_response=REDIRECT_URI+data['auth_res'], client_secret=EXTRA['client_secret'])
+    print(token)
     request.session['oauth_token'] = token
 
     return JsonResponse(token)
@@ -76,15 +96,15 @@ def refresh_token(request):
 def request_data(request):
     # repeat for the number of characters
     for i in range(len(CHARACTER_ID_LIST)):
-        membershipType = MEMBERSHIP_TYPE
-        destinyMembershipId = DESTINY_MEMBERSHIP_ID
-        characterId = CHARACTER_ID_LIST[i]
+        membership_type = MEMBERSHIP_TYPE
+        destiny_membership_id = DESTINY_MEMBERSHIP_ID
+        character_id = CHARACTER_ID_LIST[i]
         components = COMPONENTS
-        print(f"{characterId=}")
+        print(f"{character_id=}")
 
         for j in range(len(VENDOR_HASH_LIST)):
-            vendorHash = VENDOR_HASH_LIST[j]
-            endpoint_url = f"https://www.bungie.net/Platform/Destiny2/{membershipType}/Profile/{destinyMembershipId}/Character/{characterId}/Vendors/{vendorHash}/?components={components}"
+            vendor_hash = VENDOR_HASH_LIST[j]
+            endpoint_url = f"https://www.bungie.net/Platform/Destiny2/{membership_type}/Profile/{destiny_membership_id}/Character/{character_id}/Vendors/{vendor_hash}/?components={components}"
             headers = {"X-API-Key": API_KEY}
             try:
                 oauth = OAuth2Session(client_id=EXTRA['client_id'], auto_refresh_url=TOKEN_URL, auto_refresh_kwargs=EXTRA, token=request.session['oauth_token'])
@@ -94,12 +114,31 @@ def request_data(request):
                 print(e.token)
                 request.session['oauth_token'] = e.token
                 response = oauth.get(url=endpoint_url, headers=headers)
-            data = response.json()['Response']['itemComponents']['stats']['data']
+            response = response.json()['Response']
+            sales_data = response['sales']['data']
+            stats_data = response['itemComponents']['stats']['data']
 
             for vendor_item_index in VENDOR_ITEM_INDEX_LIST[i][j]:
                 print(f"\t{vendor_item_index=}")
-                stats = data[str(vendor_item_index)]['stats']
+                new_sales_item = SalesItem.objects.create(item_hash=sales_data[str(vendor_item_index)]['itemHash'], vendor_hash=vendor_hash)
+                stats = stats_data[str(vendor_item_index)]['stats']
                 for stat_hash in STAT_HASH_LIST:
                     print(f"\t\t{stat_hash=}, value={stats[str(stat_hash)]['value']}")
+                    match(STAT_HASH_LIST.index(stat_hash)):
+                        case 0:
+                            new_sales_item.mobility = stats[str(stat_hash)]['value']
+                        case 1:
+                            new_sales_item.resilience = stats[str(stat_hash)]['value']
+                        case 2:
+                            new_sales_item.recovery = stats[str(stat_hash)]['value']
+                        case 3:
+                            new_sales_item.discipline = stats[str(stat_hash)]['value']
+                        case 4:
+                            new_sales_item.intellect = stats[str(stat_hash)]['value']
+                        case 5:
+                            new_sales_item.strength = stats[str(stat_hash)]['value']
+                        case _:
+                            pass
+                print(new_sales_item)
 
-    return JsonResponse(data)
+    return JsonResponse(stats_data)
