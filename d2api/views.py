@@ -1,9 +1,11 @@
 import json
 import pprint
+from datetime import timedelta
 
 from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
+from django.utils import timezone
 from requests_oauthlib import OAuth2Session, TokenUpdated
 
 from d2api.models import Item, SalesItem, Vendor
@@ -140,6 +142,18 @@ def request_data(request):
                         case _:
                             pass
                 print(new_sales_item)
+                
+                today = timezone.now()
+                weekday = today.weekday()
+                if weekday > 2:
+                    sales_day = today - timedelta(days=weekday-2)
+                elif weekday < 2:
+                    sales_day = today - timedelta(days=weekday+5)
+                else:
+                    sales_day = today
+                sales_day = sales_day.replace(hour=17, minute=0, second=0, microsecond=0)
+                new_sales_item.sales_date = sales_day
+
                 new_sales_item.save()
 
     return JsonResponse(stats_data)
