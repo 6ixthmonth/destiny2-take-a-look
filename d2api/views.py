@@ -1,5 +1,4 @@
 import json
-import pprint
 from datetime import timedelta
 
 from django.conf import settings
@@ -89,10 +88,6 @@ def fetch_token(request):
     request.session['oauth_token'] = token
 
     return JsonResponse(token)
-
-
-def refresh_token(request):
-    return JsonResponse({'key': 'value'})
 
 
 def request_data(request):

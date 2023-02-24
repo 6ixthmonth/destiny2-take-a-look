@@ -39,18 +39,6 @@
         });
     }
 
-    function refreshToken() {
-        $.ajax({
-            url: "{% url 'd2api:refresh_token' %}"
-        }).done(function (res) {
-            console.log("success");
-            console.log(res);
-        }).fail(function (e) {
-            console.log("error");
-            console.log(e);
-        });
-    }
-
     function requstData() {
         // alert(accessToken);
         $.ajax({
@@ -70,6 +58,5 @@
 <h1>DESTINY 2 - TAKE A LOOK</h1>
 <button onclick="getAuth();">Get Authorization</button>
 <button onclick="fetchToken();">Fetch Token</button>
-<button onclick="refreshToken();">Refresh Token</button>
 <button onclick="requstData();">Request Data</button>
 {% endblock body %}
