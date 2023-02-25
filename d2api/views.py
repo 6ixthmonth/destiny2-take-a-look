@@ -99,6 +99,7 @@ def request_data(request):
         components = COMPONENTS
         print(f"{character_id=}")
 
+        # repeat for the number of vendors
         for j in range(len(VENDOR_HASH_LIST)):
             vendor_hash = VENDOR_HASH_LIST[j]
             endpoint_url = f"https://www.bungie.net/Platform/Destiny2/{membership_type}/Profile/{destiny_membership_id}/Character/{character_id}/Vendors/{vendor_hash}/?components={components}"
@@ -137,17 +138,18 @@ def request_data(request):
                         case _:
                             pass
                 print(new_sales_item)
-                
+
+                # calculate sales date
                 today = timezone.now()
                 weekday = today.weekday()
                 if weekday > 2:
-                    sales_day = today - timedelta(days=weekday-2)
+                    sales_date = today - timedelta(days=weekday-2)
                 elif weekday < 2:
-                    sales_day = today - timedelta(days=weekday+5)
+                    sales_date = today - timedelta(days=weekday+5)
                 else:
-                    sales_day = today
-                sales_day = sales_day.replace(hour=17, minute=0, second=0, microsecond=0)
-                new_sales_item.sales_date = sales_day
+                    sales_date = today
+                sales_date = sales_date.replace(hour=17, minute=0, second=0, microsecond=0)
+                new_sales_item.sales_date = sales_date
 
                 new_sales_item.save()
 
