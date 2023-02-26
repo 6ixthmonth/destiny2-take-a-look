@@ -142,13 +142,16 @@ def request_data(request):
                 # calculate sales date
                 today = timezone.now()
                 weekday = today.weekday()
-                if weekday > 2:
-                    sales_date = today - timedelta(days=weekday-2)
-                elif weekday < 2:
-                    sales_date = today - timedelta(days=weekday+5)
+                if weekday > 1:
+                    # 2 ~ 6 = wed ~ sun
+                    sales_date = today - timedelta(days=weekday-1)
+                elif weekday < 1:
+                    # 0 = mon
+                    sales_date = today - timedelta(days=weekday+6)
                 else:
+                    # 1 = tue
                     sales_date = today
-                sales_date = sales_date.replace(hour=17, minute=0, second=0, microsecond=0)
+                sales_date = sales_date.replace(hour=17, minute=0, second=0, microsecond=0)  # pst 9 = utc 17 = kst 26
                 new_sales_item.sales_date = sales_date
 
                 new_sales_item.save()
