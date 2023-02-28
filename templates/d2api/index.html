@@ -8,55 +8,25 @@
 
 {% block script %}
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-<script>
-    let accessToken = "";
-
-    function getAuth() {
-        $.ajax({
-            url: "{% url 'd2api:get_auth' %}"
-        }).done(function (res) {
-            location.href = res['authorization_url'];
-        }).fail(function (e) {
-            console.log(e);
-        });
-    }
-
-    function fetchToken() {
-        $.ajax({
-            url: "{% url 'd2api:fetch_token' %}",
-            type: "post",
-            data: JSON.stringify({
-                'auth_res': location.search
-            }),
-            headers: {
-                'X-CSRFTOKEN': "{{ csrf_token }}"
-            }
-        }).done(function (res) {
-            console.log(res);
-            accessToken = res['access_token'];
-        }).fail(function (e) {
-            console.log(e);
-        });
-    }
-
-    function requstData() {
-        // alert(accessToken);
-        $.ajax({
-            url: "{% url 'd2api:request_data' %}"
-        }).done(function (res) {
-            console.log("success");
-            console.log(res);
-        }).fail(function (e) {
-            console.log("error");
-            console.log(e);
-        });
-    }
-</script>
+<script></script>
 {% endblock script %}
 
 {% block body %}
 <h1>DESTINY 2 - TAKE A LOOK</h1>
-<button onclick="getAuth();">Get Authorization</button>
-<button onclick="fetchToken();">Fetch Token</button>
-<button onclick="requstData();">Request Data</button>
+
+<table>
+    <tr>
+        <td></td>
+        <td>Item name</td>
+        <td>Vendor</td>
+        <td>Class</td>
+        <td>Sales date</td>
+        <td>Mobility</td>
+        <td>Resilience</td>
+        <td>Recovery</td>
+        <td>Discipline</td>
+        <td>Intellect</td>
+        <td>Strength</td>
+    </tr>
+</table>
 {% endblock body %}
