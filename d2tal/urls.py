@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import include, path, reverse_lazy
-from django.views.generic import TemplateView, RedirectView
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
