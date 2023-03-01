@@ -1,9 +1,9 @@
 from django.contrib import admin
-from django.urls import include, path
-from django.views.generic import TemplateView
+from django.urls import include, path, reverse_lazy
+from django.views.generic import TemplateView, RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name='d2api/index.html')),
+    path('', RedirectView.as_view(url=reverse_lazy('d2api:home'))),
     path('d2api/', include('d2api.urls')),
 ]
