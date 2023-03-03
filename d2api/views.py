@@ -71,6 +71,11 @@ STAT_HASH_LIST = [
 COMPONENTS = "304,402"  # ItemStats, VendorSales
 
 
+def home(request):
+    context = {}
+    return render(request, 'd2api/index.html', context)
+
+
 def get_auth(request):
     oauth = OAuth2Session(client_id=EXTRA['client_id'], redirect_uri=REDIRECT_URI)
     authorization_url, state = oauth.authorization_url(url=AUTHORIZATION_URL)
