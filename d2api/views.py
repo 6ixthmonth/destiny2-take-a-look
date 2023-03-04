@@ -76,6 +76,10 @@ def home(request):
     return render(request, 'd2api/index.html', context)
 
 
+def admin(request):
+    return render(request, 'd2api/admin.html')
+
+
 def get_auth(request):
     oauth = OAuth2Session(client_id=EXTRA['client_id'], redirect_uri=REDIRECT_URI)
     authorization_url, state = oauth.authorization_url(url=AUTHORIZATION_URL)
@@ -89,24 +93,26 @@ def fetch_token(request):
 
     oauth = OAuth2Session(client_id=EXTRA['client_id'], state=request.session['oauth_state'])
     token = oauth.fetch_token(token_url=TOKEN_URL, authorization_response=REDIRECT_URI+data['auth_res'], client_secret=EXTRA['client_secret'])
-    print(token)
     request.session['oauth_token'] = token
 
     return JsonResponse(token)
 
 
 def request_data(request):
+    membership_type = MEMBERSHIP_TYPE
+    destiny_membership_id = DESTINY_MEMBERSHIP_ID
+    components = COMPONENTS
+
     # repeat for the number of characters
     for i in range(len(CHARACTER_ID_LIST)):
-        membership_type = MEMBERSHIP_TYPE
-        destiny_membership_id = DESTINY_MEMBERSHIP_ID
         character_id = CHARACTER_ID_LIST[i]
-        components = COMPONENTS
         print(f"{character_id=}")
 
         # repeat for the number of vendors
         for j in range(len(VENDOR_HASH_LIST)):
             vendor_hash = VENDOR_HASH_LIST[j]
+            print(f"\t{vendor_hash=}")
+
             endpoint_url = f"https://www.bungie.net/Platform/Destiny2/{membership_type}/Profile/{destiny_membership_id}/Character/{character_id}/Vendors/{vendor_hash}/?components={components}"
             headers = {"X-API-Key": API_KEY}
             try:
@@ -115,6 +121,7 @@ def request_data(request):
             except TokenUpdated as e:
                 print("==========Token has been updated==========")
                 print(e.token)
+                print("==========New token will be saved==========")
                 request.session['oauth_token'] = e.token
                 response = oauth.get(url=endpoint_url, headers=headers)
             response = response.json()['Response']
