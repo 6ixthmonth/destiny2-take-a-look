@@ -22,25 +22,20 @@ TOKEN_URL = "https://www.bungie.net/platform/app/oauth/token/"
 BASE_PATH = "https://www.bungie.net/Platform"
 
 VENDOR_HASH_LIST = [
-    69482069,  # Commander Zavala
-    # 248695599,  # The Drifter
-    # 3603221665,  # Lord Shaxx
+    # 350061650,  # Ada-1
+    # 396892126,  # Devrim Kay
+    # 1576276905,  # Failsafe
+    # 2190858386,  # Xûr
 ]
 VENDOR_ITEM_INDEX_LIST = [
     [
         [110, 111, 112, 113, 114],
-        # [50, 51, 52, 53],
-        # [135, 136, 137, 138],
     ],  # Titan
     [
         [105, 106, 107, 108, 109],
-        # [42, 43, 44, 45],
-        # [139, 140, 141, 142],
     ],  # Hunter
     [
         [115, 116, 117, 118, 119],
-        # [46, 47, 48, 49],
-        # [131, 132, 133, 134],
     ],  # Warlock
 ]
 ITEM_INDEX_TO_ITEM_HASH = {
@@ -113,6 +108,7 @@ def request_data(request):
             vendor_hash = VENDOR_HASH_LIST[j]
             print(f"\t{vendor_hash=}")
 
+            # request data from api
             endpoint_url = f"https://www.bungie.net/Platform/Destiny2/{membership_type}/Profile/{destiny_membership_id}/Character/{character_id}/Vendors/{vendor_hash}/?components={components}"
             headers = {"X-API-Key": API_KEY}
             try:
