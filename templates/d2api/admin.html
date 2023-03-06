@@ -9,6 +9,30 @@
 {% block script %}
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <script>
+    function getManifest() {
+        $.ajax({
+            url: "{% url 'd2api:get_manifest' %}"
+        }).done(function (res) {
+            console.log("success");
+            console.log(res);
+        }).fail(function (e) {
+            console.log("error");
+            console.log(e);
+        });
+    }
+
+    function createPickle() {
+        $.ajax({
+            url: "{% url 'd2api:create_pickle' %}"
+        }).done(function (res) {
+            console.log("success");
+            console.log(res);
+        }).fail(function (e) {
+            console.log("error");
+            console.log(e);
+        });
+    }
+
     let accessToken = "";
 
     function getAuth() {
@@ -38,11 +62,10 @@
             console.log(e);
         });
     }
-
-    function requstData() {
-        // alert(accessToken);
+    
+    function getData() {
         $.ajax({
-            url: "{% url 'd2api:request_data' %}"
+            url: "{% url 'd2api:get_data' %}"
         }).done(function (res) {
             console.log("success");
             console.log(res);
@@ -56,7 +79,15 @@
 
 {% block body %}
 <h1>DESTINY 2 - TAKE A LOOK</h1>
-<button onclick="getAuth();">Get Authorization</button>
-<button onclick="fetchToken();">Fetch Token</button>
-<button onclick="requstData();">Request Data</button>
+<fieldset>
+    <legend>Manifest</legend>
+    <button onclick="getManifest();">Get Manifest</button>
+    <button onclick="createPickle()">Create Pickle</button>
+</fieldset>
+<fieldset>
+    <legend>Authorization</legend>
+    <button onclick="getAuth();">Get Authorization</button>
+    <button onclick="fetchToken();">Fetch Token</button>
+</fieldset>
+<button onclick="getData();">Get Data</button>
 {% endblock body %}
