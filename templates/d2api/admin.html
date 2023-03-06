@@ -14,19 +14,6 @@
             url: "{% url 'd2api:get_manifest' %}"
         }).done(function (res) {
             console.log("success");
-            console.log(res);
-        }).fail(function (e) {
-            console.log("error");
-            console.log(e);
-        });
-    }
-
-    function createPickle() {
-        $.ajax({
-            url: "{% url 'd2api:create_pickle' %}"
-        }).done(function (res) {
-            console.log("success");
-            console.log(res);
         }).fail(function (e) {
             console.log("error");
             console.log(e);
@@ -82,10 +69,9 @@
 <fieldset>
     <legend>Manifest</legend>
     <button onclick="getManifest();">Get Manifest</button>
-    <button onclick="createPickle()">Create Pickle</button>
 </fieldset>
 <fieldset>
-    <legend>Authorization</legend>
+    <legend>Authentication</legend>
     <button onclick="getAuth();">Get Authorization</button>
     <button onclick="fetchToken();">Fetch Token</button>
 </fieldset>
