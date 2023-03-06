@@ -1,6 +1,8 @@
 import json
+import os
 from datetime import timedelta
 
+import requests
 from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
@@ -22,39 +24,22 @@ TOKEN_URL = "https://www.bungie.net/platform/app/oauth/token/"
 BASE_PATH = "https://www.bungie.net/Platform"
 
 VENDOR_HASH_LIST = [
-    # 350061650,  # Ada-1
+    350061650,  # Ada-1
     # 396892126,  # Devrim Kay
     # 1576276905,  # Failsafe
     # 2190858386,  # Xûr
 ]
 VENDOR_ITEM_INDEX_LIST = [
     [
-        [110, 111, 112, 113, 114],
+        [177, 178, 179, 180, 181],
     ],  # Titan
     [
-        [105, 106, 107, 108, 109],
+        [172, 173, 174, 175, 176],
     ],  # Hunter
     [
-        [115, 116, 117, 118, 119],
+        [182, 183, 184, 185, 186],
     ],  # Warlock
 ]
-ITEM_INDEX_TO_ITEM_HASH = {
-    '110': 212971972,
-    '111': 2999584444,
-    '112': 456484913,
-    '113': 1537128821,
-    '114': 2143618030,
-    '105': 619556600,
-    '106': 469333264,
-    '107': 3691455821,
-    '108': 4076604385,
-    '109': 2949791538,
-    '115': 671664021,
-    '116': 1080431755,
-    '117': 4156676002,
-    '118': 3611754012,
-    '119': 2713820407,
-}
 STAT_HASH_LIST = [
     2996146975,  # Mobility
     392767087,  # Resilience
@@ -75,6 +60,50 @@ def admin(request):
     return render(request, 'd2api/admin.html')
 
 
+def get_manifest(request):
+    if not os.path.isfile('manifest.json'):
+        print("Manifest file not exists.")
+        manifest_url = 'http://www.bungie.net/Platform/Destiny2/Manifest/'
+        headers = {"X-API-Key": API_KEY}
+        response = requests.get(manifest_url, headers=headers)
+        manifest = response.json()
+        with open('manifest.json','w') as f:
+            json.dump(manifest, f, indent=4)
+    else:
+        print("Manifest file already exists.")
+        manifest = open('manifest.json')
+        manifest = json.load(manifest)
+
+    if not os.path.isfile('destiny-inventory-item-definition.json'):
+        print("DestinyInventoryItemDefinition file not exists.")
+        destiny_inventory_item_definition_url = 'http://www.bungie.net'+manifest['Response']['jsonWorldComponentContentPaths']['en']['DestinyInventoryItemDefinition']
+        response = requests.get(destiny_inventory_item_definition_url)
+        with open('destiny-inventory-item-definition.json', 'w') as f:
+            json.dump(response.json(), f, indent=4)
+    else:
+        print("DestinyInventoryItemDefinition file already exists.")
+    
+    if not os.path.isfile('destiny-stat-definition.json'):
+        print("DestinyStatDefinition file not exists.")
+        destiny_stat_definition_url = 'http://www.bungie.net'+manifest['Response']['jsonWorldComponentContentPaths']['en']['DestinyStatDefinition']
+        response = requests.get(destiny_stat_definition_url)
+        with open('destiny-stat-definition.json', 'w') as f:
+            json.dump(response.json(), f, indent=4)
+    else:
+        print("DestinyStatDefinition file already exists.")
+
+    if not os.path.isfile('destiny-vendor-definition.json'):
+        print("DestinyVendorDefinition file not exists.")
+        destiny_vendor_definition_url = 'http://www.bungie.net'+manifest['Response']['jsonWorldComponentContentPaths']['en']['DestinyVendorDefinition']
+        response = requests.get(destiny_vendor_definition_url)
+        with open('destiny-vendor-definition.json', 'w') as f:
+            json.dump(response.json(), f, indent=4)
+    else:
+        print("DestinyVendorDefinition file already exists.")
+
+    return JsonResponse({})
+
+
 def get_auth(request):
     oauth = OAuth2Session(client_id=EXTRA['client_id'], redirect_uri=REDIRECT_URI)
     authorization_url, state = oauth.authorization_url(url=AUTHORIZATION_URL)
@@ -93,10 +122,12 @@ def fetch_token(request):
     return JsonResponse(token)
 
 
-def request_data(request):
+def get_data(request):
     membership_type = MEMBERSHIP_TYPE
     destiny_membership_id = DESTINY_MEMBERSHIP_ID
     components = COMPONENTS
+
+    destiny_inventory_item_definition = json.load(open('destiny-inventory-item-definition.json'))
 
     # repeat for the number of characters
     for i in range(len(CHARACTER_ID_LIST)):
@@ -125,11 +156,13 @@ def request_data(request):
             stats_data = response['itemComponents']['stats']['data']
 
             for vendor_item_index in VENDOR_ITEM_INDEX_LIST[i][j]:
-                print(f"\t{vendor_item_index=}")
+                item_hash = sales_data[str(vendor_item_index)]['itemHash']
+                print(f"\t\t{vendor_item_index=}, {item_hash=}, name={destiny_inventory_item_definition[str(item_hash)]['displayProperties']['name']}")
+                """
                 new_sales_item = SalesItem.objects.create(item_hash_id=sales_data[str(vendor_item_index)]['itemHash'], vendor_hash_id=vendor_hash)
                 stats = stats_data[str(vendor_item_index)]['stats']
                 for stat_hash in STAT_HASH_LIST:
-                    print(f"\t\t{stat_hash=}, value={stats[str(stat_hash)]['value']}")
+                    print(f"\t\t\t{stat_hash=}, value={stats[str(stat_hash)]['value']}")
                     match(STAT_HASH_LIST.index(stat_hash)):
                         case 0:
                             new_sales_item.mobility = stats[str(stat_hash)]['value']
@@ -163,5 +196,5 @@ def request_data(request):
                 new_sales_item.sales_date = sales_date
 
                 new_sales_item.save()
-
+                """
     return JsonResponse(stats_data)
