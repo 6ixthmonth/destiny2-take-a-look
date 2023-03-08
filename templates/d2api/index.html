@@ -7,6 +7,7 @@
 {% endblock style %}
 
 {% block script %}
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 {% endblock script %}
 
 {% block body %}
@@ -15,9 +16,11 @@
 <table border="1">
     <tr>
         <td></td>
+        <td></td>
         <td>Item name</td>
-        <td>Vendor</td>
+        <td>Item type</td>
         <td>Class</td>
+        <td>Vendor</td>
         <td>Sales date</td>
         <td>Mobility</td>
         <td>Resilience</td>
@@ -27,5 +30,118 @@
         <td>Strength</td>
         <td>Recommend</td>
     </tr>
+    {% for salesitem in salesitem_list  %}
+    <tr>
+        <td>{{ salesitem.id }}</td>
+        <td><img src="http://www.bungie.net{{ salesitem.item_hash.icon_url }}"></td>
+        <td>{{ salesitem.item_hash.item_name }}</td>
+        <td>{{ salesitem.item_hash.item_type }}</td>
+        <td>
+            {% if salesitem.item_hash.class_type == 0 %}
+            Titan
+            {% elif salesitem.item_hash.class_type == 1 %}
+            Hunter
+            {% else %}
+            Warlock
+            {% endif %}
+        </td>
+        <td>{{ salesitem.vendor_hash.vendor_name }}</td>
+        <td>{{ salesitem.sales_date }}</td>
+        <td>{{ salesitem.mobility }}</td>
+        <td>{{ salesitem.resilience }}</td>
+        <td>{{ salesitem.recovery }}</td>
+        <td>{{ salesitem.discipline }}</td>
+        <td>{{ salesitem.intellect }}</td>
+        <td>{{ salesitem.strength }}</td>
+        <td>{{ salesitem.recommend }}</td>
+    </tr>
+    {% endfor %}
+        
 </table>
+
+{% if user.is_authenticated %}
+<hr>
+<fieldset>
+    <legend>Manifest</legend>
+    <button onclick="getManifest();">Get Manifest</button>
+    <button disabled="disabled">Get DestinyStatDefinition</button>
+    <button disabled="disabled">Get DestinyInventoryItemDefinition</button>
+    <button disabled="disabled">Get DestinyVendorDefinition</button>
+</fieldset>
+<fieldset>
+    <legend>Authentication</legend>
+    <button onclick="getAuth();">Get Authorization</button>
+    <button onclick="fetchToken();">Fetch Token</button>
+    <button disabled="disabled">Refresh Token</button>
+</fieldset>
+<fieldset>
+    <legend>API</legend>
+    <button onclick="getData();">Get Data</button>
+    <button onclick="getLimitedTimeVendorData()">Get Limited Time Vendor Data</button>
+</fieldset>
+<script>
+    function getManifest() {
+        $.ajax({
+            url: "{% url 'd2api:get_manifest' %}"
+        }).done(function (res) {
+            console.log("success");
+        }).fail(function (e) {
+            console.log("error");
+            console.log(e);
+        });
+    }
+
+    let accessToken = "";
+
+    function getAuth() {
+        $.ajax({
+            url: "{% url 'd2api:get_auth' %}"
+        }).done(function (res) {
+            location.href = res['authorization_url'];
+        }).fail(function (e) {
+            console.log(e);
+        });
+    }
+
+    function fetchToken() {
+        $.ajax({
+            url: "{% url 'd2api:fetch_token' %}",
+            type: "post",
+            data: JSON.stringify({
+                'auth_res': location.search
+            }),
+            headers: {
+                'X-CSRFTOKEN': "{{ csrf_token }}"
+            }
+        }).done(function (res) {
+            accessToken = res['access_token'];
+        }).fail(function (e) {
+            console.log(e);
+        });
+    }
+    
+    function getData() {
+        $.ajax({
+            url: "{% url 'd2api:get_data' %}"
+        }).done(function (res) {
+            console.log("success");
+        }).fail(function (e) {
+            console.log("error");
+            console.log(e);
+        });
+    }
+
+    function getLimitedTimeVendorData() {
+        $.ajax({
+            url: "{% url 'd2api:get_limited_time_vendor_data' %}"
+        }).done(function (res) {
+            console.log("success");
+        }).fail(function (e) {
+            console.log("error");
+            console.log(e);
+        });
+    }
+</script>
+{% endif %}
+    
 {% endblock body %}
