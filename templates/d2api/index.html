@@ -4,69 +4,79 @@
 
 {% load static %}
 {% block style %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 {% endblock style %}
 
 {% block script %}
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 {% endblock script %}
 
 {% block body %}
 <h1>DESTINY 2 - TAKE A LOOK</h1>
 
-<table border="1">
-    <tr>
-        <td></td>
-        <td></td>
-        <td>Item name</td>
-        <td>Item type</td>
-        <td>Class</td>
-        <td>Vendor</td>
-        <td>Sales date</td>
-        <td>Mobility</td>
-        <td>Resilience</td>
-        <td>Recovery</td>
-        <td>Discipline</td>
-        <td>Intellect</td>
-        <td>Strength</td>
-        <td>Recommend</td>
-    </tr>
-    {% for salesitem in salesitem_list  %}
-    <tr>
-        <td>{{ salesitem.id }}</td>
-        <td><img src="http://www.bungie.net{{ salesitem.item_hash.icon_url }}"></td>
-        <td>{{ salesitem.item_hash.item_name }}</td>
-        <td>{{ salesitem.item_hash.item_type }}</td>
-        <td>
-            {% if salesitem.item_hash.class_type == 0 %}
-            Titan
-            {% elif salesitem.item_hash.class_type == 1 %}
-            Hunter
-            {% else %}
-            Warlock
-            {% endif %}
-        </td>
-        <td>{{ salesitem.vendor_hash.vendor_name }}</td>
-        <td>{{ salesitem.sales_date }}</td>
-        <td>{{ salesitem.mobility }}</td>
-        <td>{{ salesitem.resilience }}</td>
-        <td>{{ salesitem.recovery }}</td>
-        <td>{{ salesitem.discipline }}</td>
-        <td>{{ salesitem.intellect }}</td>
-        <td>{{ salesitem.strength }}</td>
-        <td>{{ salesitem.recommend }}</td>
-    </tr>
-    {% endfor %}
-        
-</table>
+<div class="table-responsive">
+    <table class="table table-sm table-hover align-middle">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Icon</th>
+                <th scope="col">Item name</th>
+                <th scope="col">Item type</th>
+                <th scope="col">Class</th>
+                <th scope="col">Vendor</th>
+                <th scope="col">Sales date</th>
+                <th scope="col">Stats</th>
+                <th scope="col">Recommend<!-- <img src="http://www.bungie.net" title="Recommend"> --></th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            {% for salesitem in salesitem_list  %}
+            <tr>
+                <th scope="row">{{ salesitem.id }}</td>
+                <td><img src="http://www.bungie.net{{ salesitem.item_hash.icon_url }}" title="{{ salesitem.item_hash.item_name }}" width="48" height="48"></td>
+                <td>{{ salesitem.item_hash.item_name }}</td>
+                <td>{{ salesitem.item_hash.item_type }}</td>
+                <td>
+                    {% if salesitem.item_hash.class_type == 0 %}
+                    <!-- <img src="http://www.bungie.net" title="Titan"> -->
+                    Titan
+                    {% elif salesitem.item_hash.class_type == 1 %}
+                    <!-- <img src="http://www.bungie.net" title="Hunter"> -->
+                    Hunter
+                    {% else %}
+                    <!-- <img src="http://www.bungie.net" title="Warlock"> -->
+                    Warlock
+                    {% endif %}
+                </td>
+                <td><img src="http://www.bungie.net{{ salesitem.vendor_hash.icon_url }}" title="{{ salesitem.vendor_hash.vendor_name }}" width="105" height="30"></td>
+                <td>{{ salesitem.sales_date }}</td>
+                <td>
+                    <table class="table table-borderless mb-0">
+                        <tr><td>Mobility<!-- <img src="http://www.bungie.net" title="Mobility"> -->{{ salesitem.mobility }}</td></tr>
+                        <tr><td>Resilience<!-- <img src="http://www.bungie.net" title="Resilience"> -->{{ salesitem.resilience }}</td></tr>
+                        <tr><td>Recovery<!-- <img src="http://www.bungie.net" title="Recovery"> -->{{ salesitem.recovery }}</td></tr>
+                        <tr><td>Discipline<!-- <img src="http://www.bungie.net" title="Discipline"> -->{{ salesitem.discipline }}</td></tr>
+                        <tr><td>Intellect<!-- <img src="http://www.bungie.net" title="Intellect"> -->{{ salesitem.intellect }}</td></tr>
+                        <tr><td>Strength<!-- <img src="http://www.bungie.net" title="Strength"> -->{{ salesitem.strength }}</td></tr>
+                    </table>
+                </td>
+                <td>{{ salesitem.recommend }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 {% if user.is_authenticated %}
 <hr>
 <fieldset>
     <legend>Manifest</legend>
     <button onclick="getManifest();">Get Manifest</button>
-    <button disabled="disabled">Get DestinyStatDefinition</button>
-    <button disabled="disabled">Get DestinyInventoryItemDefinition</button>
-    <button disabled="disabled">Get DestinyVendorDefinition</button>
+    <button onclick="getDefinition('class');">Get DestinyClassDefinition</button>
+    <button onclick="getDefinition('stat');">Get DestinyStatDefinition</button>
+    <button onclick="getDefinition('inventory item');">Get DestinyInventoryItemDefinition</button>
+    <button onclick="getDefinition('vendor');">Get DestinyVendorDefinition</button>
 </fieldset>
 <fieldset>
     <legend>Authentication</legend>
@@ -76,71 +86,58 @@
 </fieldset>
 <fieldset>
     <legend>API</legend>
-    <button onclick="getData();">Get Data</button>
+    <button onclick="getVendorData();">Get Vendor Data</button>
     <button onclick="getLimitedTimeVendorData()">Get Limited Time Vendor Data</button>
 </fieldset>
 <script>
-    function getManifest() {
+    // manifest functions
+    function getManifest() { $.ajax("{% url 'd2api:get_manifest' %}"); }
+    function getDefinition(param) {
         $.ajax({
-            url: "{% url 'd2api:get_manifest' %}"
-        }).done(function (res) {
-            console.log("success");
-        }).fail(function (e) {
-            console.log("error");
-            console.log(e);
+            url: "{% url 'd2api:get_definition' %}",
+            type: "POST",
+            headers: {
+                'X-CSRFTOKEN': "{{ csrf_token }}"
+            },
+            data: JSON.stringify({
+                'param': param
+            })
         });
     }
 
+    // authentication functions
     let accessToken = "";
 
     function getAuth() {
-        $.ajax({
-            url: "{% url 'd2api:get_auth' %}"
-        }).done(function (res) {
-            location.href = res['authorization_url'];
+        $.ajax("{% url 'd2api:get_auth' %}"
+        ).done(function (data) {
+            location.href = data['authorization_url'];
         }).fail(function (e) {
             console.log(e);
         });
     }
 
     function fetchToken() {
+        alert(location.search);
         $.ajax({
             url: "{% url 'd2api:fetch_token' %}",
             type: "post",
-            data: JSON.stringify({
-                'auth_res': location.search
-            }),
             headers: {
                 'X-CSRFTOKEN': "{{ csrf_token }}"
-            }
-        }).done(function (res) {
-            accessToken = res['access_token'];
+            },
+            data: JSON.stringify({
+                'auth_res': location.search
+            })
+        }).done(function (data) {
+            accessToken = data['access_token'];
         }).fail(function (e) {
-            console.log(e);
-        });
-    }
-    
-    function getData() {
-        $.ajax({
-            url: "{% url 'd2api:get_data' %}"
-        }).done(function (res) {
-            console.log("success");
-        }).fail(function (e) {
-            console.log("error");
             console.log(e);
         });
     }
 
-    function getLimitedTimeVendorData() {
-        $.ajax({
-            url: "{% url 'd2api:get_limited_time_vendor_data' %}"
-        }).done(function (res) {
-            console.log("success");
-        }).fail(function (e) {
-            console.log("error");
-            console.log(e);
-        });
-    }
+    // API functions
+    function getVendorData() { $.ajax("{% url 'd2api:get_vendor_data' %}"); }
+    function getLimitedTimeVendorData() { $.ajax("{% url 'd2api:get_limited_time_vendor_data' %}"); }
 </script>
 {% endif %}
     
