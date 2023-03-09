@@ -5,23 +5,24 @@ from datetime import timedelta
 import requests
 from django.conf import settings
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
 from django.utils import timezone
-from django.views.generic import ListView
 from requests_oauthlib import OAuth2Session, TokenUpdated
 
 from d2api.models import Item, SalesItem, Vendor
 
-API_KEY = settings.API_KEY
+HEADERS = {'X-API-Key': settings.API_KEY}
 EXTRA = {'client_id': settings.CLIENT_ID, 'client_secret': settings.CLIENT_SECRET}
 
 CHARACTER_ID_LIST = [settings.TITAN_ID, settings.HUNTER_ID, settings.WARLOCK_ID]
 DESTINY_MEMBERSHIP_ID = settings.DESTINY_MEMBERSHIP_ID
 MEMBERSHIP_TYPE = settings.MEMBERSHIP_TYPE
 
-REDIRECT_URI = "https://127.0.0.1:8000/d2api/"
-AUTHORIZATION_URL = "https://www.bungie.net/en/oauth/authorize"
-TOKEN_URL = "https://www.bungie.net/platform/app/oauth/token/"
+REDIRECT_URI = "https://127.0.0.1:8000/"
+BASE_URL = "http://www.bungie.net"
+MANIFEST_URL = "/Platform/Destiny2/Manifest/"
+AUTHORIZATION_URL = "/en/oauth/authorize"
+TOKEN_URL = "/platform/app/oauth/token/"
+COMPONENTS = "304,402"  # ItemStats, VendorSales
 
 VENDOR_HASH_LIST = [
     350061650,  # Ada-1
@@ -67,89 +68,52 @@ STAT_HASH_LIST = [
     144602215,  # Intellect
     4244567218,  # Strength
 ]
-COMPONENTS = "304,402"  # ItemStats, VendorSales
-
-
-class Home(ListView):
-    template_name = "d2api/index.html"
-
-    def get_queryset(self):
-        queryset = SalesItem.objects.all()
-        return queryset
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
 
 def get_manifest(request):
-    if not os.path.isfile('manifest.json'):
+    if not os.path.exists('manifest.json'):
         print("Manifest file not exists.")
-        manifest_url = 'http://www.bungie.net/Platform/Destiny2/Manifest/'
-        headers = {"X-API-Key": API_KEY}
-        response = requests.get(manifest_url, headers=headers)
-        manifest = response.json()
+        response = requests.get(url=BASE_URL+MANIFEST_URL, headers=HEADERS)
         with open('manifest.json','w') as f:
-            json.dump(manifest, f, indent=4)
+            json.dump(response.json(), f, indent=4)
     else:
         print("Manifest file already exists.")
-        manifest = open('manifest.json')
-        manifest = json.load(manifest)
-
-    if not os.path.isfile('destiny-inventory-item-definition.json'):
-        print("DestinyInventoryItemDefinition file not exists.")
-        destiny_inventory_item_definition_url = 'http://www.bungie.net'+manifest['Response']['jsonWorldComponentContentPaths']['en']['DestinyInventoryItemDefinition']
-        response = requests.get(destiny_inventory_item_definition_url)
-        with open('destiny-inventory-item-definition.json', 'w') as f:
-            json.dump(response.json(), f, indent=4)
-    else:
-        print("DestinyInventoryItemDefinition file already exists.")
-    
-    if not os.path.isfile('destiny-stat-definition.json'):
-        print("DestinyStatDefinition file not exists.")
-        destiny_stat_definition_url = 'http://www.bungie.net'+manifest['Response']['jsonWorldComponentContentPaths']['en']['DestinyStatDefinition']
-        response = requests.get(destiny_stat_definition_url)
-        with open('destiny-stat-definition.json', 'w') as f:
-            json.dump(response.json(), f, indent=4)
-    else:
-        print("DestinyStatDefinition file already exists.")
-
-    if not os.path.isfile('destiny-vendor-definition.json'):
-        print("DestinyVendorDefinition file not exists.")
-        destiny_vendor_definition_url = 'http://www.bungie.net'+manifest['Response']['jsonWorldComponentContentPaths']['en']['DestinyVendorDefinition']
-        response = requests.get(destiny_vendor_definition_url)
-        with open('destiny-vendor-definition.json', 'w') as f:
-            json.dump(response.json(), f, indent=4)
-    else:
-        print("DestinyVendorDefinition file already exists.")
-
     return JsonResponse({})
 
+def get_definition(request):
+    body = json.loads(request.body)
+    param = body['param']
+    definition_name = 'Destiny' + "".join(word.capitalize() for word in param.split()) + 'Definition'
+    file_name = definition_name + '.json'
+    print(f"{definition_name=}, {file_name=}")
+    if not os.path.exists(file_name):
+        print(f"{definition_name} file not exists.")
+        manifest = json.load(open('manifest.json'))
+        url = BASE_URL + manifest['Response']['jsonWorldComponentContentPaths']['en'][definition_name]
+        response = requests.get(url=url)
+        with open(file_name, 'w') as f:
+            json.dump(response.json(), f, indent=4)
+    else:
+        print(f"{definition_name} file already exists.")
+    return JsonResponse({})
 
 def get_auth(request):
     oauth = OAuth2Session(client_id=EXTRA['client_id'], redirect_uri=REDIRECT_URI)
-    authorization_url, state = oauth.authorization_url(url=AUTHORIZATION_URL)
+    authorization_url, state = oauth.authorization_url(url=BASE_URL+AUTHORIZATION_URL)
     request.session['oauth_state'] = state
-
     return JsonResponse({'authorization_url': authorization_url})
-
 
 def fetch_token(request):
     body = json.loads(request.body)
-
     oauth = OAuth2Session(client_id=EXTRA['client_id'], state=request.session['oauth_state'])
-    token = oauth.fetch_token(token_url=TOKEN_URL, authorization_response=REDIRECT_URI+body['auth_res'], client_secret=EXTRA['client_secret'])
+    token = oauth.fetch_token(token_url=BASE_URL+TOKEN_URL, authorization_response=REDIRECT_URI+body['auth_res'], client_secret=EXTRA['client_secret'])
     request.session['oauth_token'] = token
-
     return JsonResponse(token)
 
 
-def get_data(request):
+def get_vendor_data(request):
     membership_type = MEMBERSHIP_TYPE
     destiny_membership_id = DESTINY_MEMBERSHIP_ID
     components = COMPONENTS
-
-    destiny_inventory_item_definition = json.load(open('destiny-inventory-item-definition.json'))
 
     # repeat for the number of characters
     for i in range(len(CHARACTER_ID_LIST)):
@@ -162,26 +126,27 @@ def get_data(request):
             print(f"\t{vendor_hash=}")
 
             # request data from api
-            endpoint_url = f"https://www.bungie.net/Platform/Destiny2/{membership_type}/Profile/{destiny_membership_id}/Character/{character_id}/Vendors/{vendor_hash}/?components={components}"
-            headers = {"X-API-Key": API_KEY}
+            url = BASE_URL + f"/Platform/Destiny2/{membership_type}/Profile/{destiny_membership_id}/Character/{character_id}/Vendors/{vendor_hash}/?components={components}"
+            headers = HEADERS
             try:
-                oauth = OAuth2Session(client_id=EXTRA['client_id'], auto_refresh_url=TOKEN_URL, auto_refresh_kwargs=EXTRA, token=request.session['oauth_token'])
-                response = oauth.get(url=endpoint_url, headers=headers)
+                oauth = OAuth2Session(client_id=EXTRA['client_id'], auto_refresh_url=BASE_URL+TOKEN_URL, auto_refresh_kwargs=EXTRA, token=request.session['oauth_token'])
+                response = oauth.get(url=url, headers=headers)
             except TokenUpdated as e:
                 print("==========Token has been updated==========")
                 print(e.token)
                 print("==========New token will be saved==========")
                 request.session['oauth_token'] = e.token
-                response = oauth.get(url=endpoint_url, headers=headers)
+                response = oauth.get(url=url, headers=headers)
             response = response.json()['Response']
             sales_data = response['sales']['data']
             stats_data = response['itemComponents']['stats']['data']
 
             for vendor_item_index in VENDOR_ITEM_INDEX_LIST[i][j]:
                 item_hash = sales_data[str(vendor_item_index)]['itemHash']
-                print(f"\t\t{vendor_item_index=}, {item_hash=}, name={destiny_inventory_item_definition[str(item_hash)]['displayProperties']['name']}")
+                print(f"\t\t{item_hash=}")
 
                 if not Item.objects.filter(item_hash=item_hash).exists():
+                    destiny_inventory_item_definition = json.load(open('DestinyInventoryItemDefinition.json'))
                     item_name = destiny_inventory_item_definition[str(item_hash)]['displayProperties']['name']
                     item_type = destiny_inventory_item_definition[str(item_hash)]['itemTypeDisplayName']
                     class_type = destiny_inventory_item_definition[str(item_hash)]['classType']
@@ -189,12 +154,16 @@ def get_data(request):
                     Item.objects.create(item_hash=item_hash, item_name=item_name, item_type=item_type, class_type=class_type, icon_url=icon_url)
 
                 if not Vendor.objects.filter(vendor_hash=vendor_hash).exists():
-                    Vendor.objects.create(vendor_hash=vendor_hash, vendor_name="", icon_url="")
+                    destiny_vendor_definition = json.load(open('DestinyVendorDefinition.json'))
+                    vendor_name = destiny_vendor_definition[str(vendor_hash)]['displayProperties']['name']
+                    icon_url = destiny_vendor_definition[str(vendor_hash)]['displayProperties']['largeIcon']
+                    Vendor.objects.create(vendor_hash=vendor_hash, vendor_name=vendor_name, icon_url=icon_url)
 
                 new_sales_item = SalesItem.objects.create(item_hash_id=sales_data[str(vendor_item_index)]['itemHash'], vendor_hash_id=vendor_hash)
+
+                # setting stats
                 stats = stats_data[str(vendor_item_index)]['stats']
                 for stat_hash in STAT_HASH_LIST:
-                    print(f"\t\t\t{stat_hash=}, value={stats[str(stat_hash)]['value']}")
                     match(STAT_HASH_LIST.index(stat_hash)):
                         case 0:
                             new_sales_item.mobility = stats[str(stat_hash)]['value']
@@ -230,15 +199,13 @@ def get_data(request):
                 new_sales_item.sales_date = sales_date
 
                 new_sales_item.save()
-    return JsonResponse(stats_data)
+    return JsonResponse({})
 
 
 def get_limited_time_vendor_data(request):
     membership_type = MEMBERSHIP_TYPE
     destiny_membership_id = DESTINY_MEMBERSHIP_ID
     components = COMPONENTS
-
-    destiny_inventory_item_definition = json.load(open('destiny-inventory-item-definition.json'))
 
     # repeat for the number of characters
     for i in range(len(CHARACTER_ID_LIST)):
@@ -268,9 +235,10 @@ def get_limited_time_vendor_data(request):
 
             for vendor_item_index in LIMITED_TIME_VENDOR_ITEM_INDEX_LIST[i][j]:
                 item_hash = sales_data[str(vendor_item_index)]['itemHash']
-                print(f"\t\t{vendor_item_index=}, {item_hash=}, name={destiny_inventory_item_definition[str(item_hash)]['displayProperties']['name']}")
+                print(f"\t\t{item_hash=}")
 
                 if not Item.objects.filter(item_hash=item_hash).exists():
+                    destiny_inventory_item_definition = json.load(open('destiny-inventory-item-definition.json'))
                     item_name = destiny_inventory_item_definition[str(item_hash)]['displayProperties']['name']
                     item_type = destiny_inventory_item_definition[str(item_hash)]['itemTypeDisplayName']
                     class_type = destiny_inventory_item_definition[str(item_hash)]['classType']
@@ -278,12 +246,16 @@ def get_limited_time_vendor_data(request):
                     Item.objects.create(item_hash=item_hash, item_name=item_name, item_type=item_type, class_type=class_type, icon_url=icon_url)
 
                 if not Vendor.objects.filter(vendor_hash=vendor_hash).exists():
-                    Vendor.objects.create(vendor_hash=vendor_hash, vendor_name="", icon_url="")
+                    destiny_vendor_definition = json.load(open('DestinyVendorDefinition.json'))
+                    vendor_name = destiny_vendor_definition[str(vendor_hash)]['displayProperties']['name']
+                    icon_url = destiny_vendor_definition[str(vendor_hash)]['displayProperties']['largeIcon']
+                    Vendor.objects.create(vendor_hash=vendor_hash, vendor_name=vendor_name, icon_url=icon_url)
 
                 new_sales_item = SalesItem.objects.create(item_hash_id=sales_data[str(vendor_item_index)]['itemHash'], vendor_hash_id=vendor_hash)
+
+                # setting stats
                 stats = stats_data[str(vendor_item_index)]['stats']
                 for stat_hash in STAT_HASH_LIST:
-                    print(f"\t\t\t{stat_hash=}, value={stats[str(stat_hash)]['value']}")
                     match(STAT_HASH_LIST.index(stat_hash)):
                         case 0:
                             new_sales_item.mobility = stats[str(stat_hash)]['value']
@@ -319,4 +291,4 @@ def get_limited_time_vendor_data(request):
                 new_sales_item.sales_date = sales_date
 
                 new_sales_item.save()
-    return JsonResponse(stats_data)
+    return JsonResponse({})
