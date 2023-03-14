@@ -9,134 +9,146 @@
 {% endblock style %}
 
 {% block script %}
-<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 {% endblock script %}
 
 {% block body %}
-<h1>DESTINY 2 - TAKE A LOOK</h1>
+<div class="container my-5 text-center">
+    <div class="h1 my-5">DESTINY 2 - TAKE A LOOK</div>
 
-<div class="table-responsive">
-    <table class="table table-sm table-dark table-hover align-middle">
-        <thead>
-            <tr>
-                <th scope="col"></th>
-                <th scope="col">Icon</th>
-                <th scope="col">Item name</th>
-                <th scope="col">Item type</th>
-                <th scope="col">Class</th>
-                <th scope="col">Vendor</th>
-                <th scope="col">Sales date</th>
-                <th scope="col">Stats</th>
-                <th scope="col" colspan="2">Recommend<!-- <img src="http://www.bungie.net" title="Recommend"> --></th>
-            </tr>
-        </thead>
-        <tbody class="table-group-divider">
-            {% for salesitem in salesitem_list  %}
-            <tr>
-                <th scope="row">{{ salesitem.id }}</td>
-                <td><img src="http://www.bungie.net{{ salesitem.item_hash.icon_url }}" title="{{ salesitem.item_hash.item_name }}" width="48" height="48"></td>
-                <td>{{ salesitem.item_hash.item_name }}</td>
-                <td>{{ salesitem.item_hash.item_type }}</td>
-                <td>
-                    {% if salesitem.item_hash.class_type == 0 %}
-                    <img src="http://www.bungie.net/common/destiny2_content/icons/e19db7ef99282a166ff9c650d5bafdc8.png" title="Titan">
-                    {% elif salesitem.item_hash.class_type == 1 %}
-                    <img src="http://www.bungie.net/common/destiny2_content/icons/dc8dfdde34e25b92afb5403882c9983b.png" title="Hunter">
-                    {% else %}
-                    <img src="http://www.bungie.net/common/destiny2_content/icons/bc62282aea01969049a33d6c1ddffe2f.png" title="Warlock">
-                    {% endif %}
-                </td>
-                <td><img src="http://www.bungie.net{{ salesitem.vendor_hash.icon_url }}" title="{{ salesitem.vendor_hash.vendor_name }}" width="105" height="30"></td>
-                <td>{{ salesitem.sales_date }}</td>
-                <td>
-                    <table class="table table-borderless mb-0">
-                        <tr>
-                            <td>
-                                <img src="http://www.bungie.net/common/destiny2_content/icons/e26e0e93a9daf4fdd21bf64eb9246340.png" title="Mobility">
-                            </td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" aria-label="Mobility" style="width: {{ salesitem.mobility|multiply:3.33 }}%" aria-valuenow="{{ salesitem.mobility }}" aria-valuemin="0" aria-valuemax="30"></div>
-                                </div>
-                            </td>
-                            <td>
-                                {{ salesitem.mobility }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="http://www.bungie.net/common/destiny2_content/icons/202ecc1c6febeb6b97dafc856e863140.png" title="Resilience">
-                            </td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" aria-label="Resilience" style="width: {{ salesitem.resilience|multiply:3.33 }}%" aria-valuenow="{{ salesitem.resilience }}" aria-valuemin="0" aria-valuemax="30"></div>
-                                </div>
-                            </td>
-                            <td>
-                                {{ salesitem.resilience }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="http://www.bungie.net/common/destiny2_content/icons/128eee4ee7fc127851ab32eac6ca91cf.png" title="Recovery">
-                            </td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" aria-label="Recovery" style="width: {{ salesitem.recovery|multiply:3.33 }}%" aria-valuenow="{{ salesitem.recovery }}" aria-valuemin="0" aria-valuemax="30"></div>
-                                </div>
-                            </td>
-                            <td>
-                                {{ salesitem.recovery }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="http://www.bungie.net/common/destiny2_content/icons/ca62128071dc254fe75891211b98b237.png" title="Discipline">
-                            </td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" aria-label="Discipline" style="width: {{ salesitem.discipline|multiply:3.33 }}%" aria-valuenow="{{ salesitem.discipline }}" aria-valuemin="0" aria-valuemax="30"></div>
-                                </div>
-                            </td>
-                            <td>
-                                {{ salesitem.discipline }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="http://www.bungie.net/common/destiny2_content/icons/59732534ce7060dba681d1ba84c055a6.png" title="Intellect">
-                            </td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" aria-label="Intellect" style="width: {{ salesitem.intellect|multiply:3.33 }}%" aria-valuenow="{{ salesitem.intellect }}" aria-valuemin="0" aria-valuemax="30"></div>
-                                </div>
-                            </td>
-                            <td>
-                                {{ salesitem.intellect }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="http://www.bungie.net/common/destiny2_content/icons/c7eefc8abbaa586eeab79e962a79d6ad.png" title="Strength">
-                            </td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" aria-label="Strength" style="width: {{ salesitem.strength|multiply:3.33 }}%" aria-valuenow="{{ salesitem.strength }}" aria-valuemin="0" aria-valuemax="30"></div>
-                                </div>
-                            </td>
-                            <td>
-                                {{ salesitem.strength }}
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-                <td>{{ salesitem.recommend }}</td>
-                <td>{{ salesitem.recommend }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-dark table-hover align-middle">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 8%;">Icon</th>
+                    <th scope="col" style="width: 16%;">Item name</th>
+                    <th scope="col" style="width: 10%;">Item type</th>
+                    <th scope="col" style="width: 6%;">Class</th>
+                    <th scope="col" style="width: 12%;">Vendor</th>
+                    <th scope="col" style="width: 10%;">Sales date</th>
+                    <th scope="col">Stats</th>
+                    <th scope="col" colspan="2" style="width: 9%;">Recommend</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                {% for salesitem in salesitem_list  %}
+                <tr>
+                    <td><img src="http://www.bungie.net{{ salesitem.item_hash.icon_url }}" title="{{ salesitem.item_hash.item_name }}" width="50" height="50"></td>
+                    <td>{{ salesitem.item_hash.item_name }}</td>
+                    <td>{{ salesitem.item_hash.item_type }}</td>
+                    <td>
+                        {% if salesitem.item_hash.class_type == 0 %}
+                        <img src="http://www.bungie.net/common/destiny2_content/icons/e19db7ef99282a166ff9c650d5bafdc8.png" title="Titan" width="48" height="48">
+                        {% elif salesitem.item_hash.class_type == 1 %}
+                        <img src="http://www.bungie.net/common/destiny2_content/icons/dc8dfdde34e25b92afb5403882c9983b.png" title="Hunter" width="48" height="48">
+                        {% else %}
+                        <img src="http://www.bungie.net/common/destiny2_content/icons/bc62282aea01969049a33d6c1ddffe2f.png" title="Warlock" width="48" height="48">
+                        {% endif %}
+                    </td>
+                    <td><img src="http://www.bungie.net{{ salesitem.vendor_hash.icon_url }}" title="{{ salesitem.vendor_hash.vendor_name }}" width="105" height="30"></td>
+                    <td>{{ salesitem.sales_date|date:"Y-m-d" }}</td>
+                    <td>
+                        <table class="table table-borderless my-0 align-middle">
+                            <tr>
+                                <td class="py-0" style="width: 15%;">
+                                    <img src="http://www.bungie.net/common/destiny2_content/icons/e26e0e93a9daf4fdd21bf64eb9246340.png" title="Mobility" width="25" height="25">
+                                </td>
+                                <td class="py-0">
+                                    <div class="progress">
+                                        <div class="progress-bar bg-secondary" role="progressbar" aria-label="Mobility" style="width: {{ salesitem.mobility|multiply:3.33 }}%" aria-valuenow="{{ salesitem.mobility }}" aria-valuemin="0" aria-valuemax="30"></div>
+                                    </div>
+                                </td>
+                                <td class="py-0" style="width: 15%;">
+                                    <div class="text-light">
+                                        {{ salesitem.mobility }}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-0">
+                                    <img src="http://www.bungie.net/common/destiny2_content/icons/202ecc1c6febeb6b97dafc856e863140.png" title="Resilience" width="25" height="25">
+                                </td>
+                                <td class="py-0">
+                                    <div class="progress">
+                                        <div class="progress-bar bg-secondary" role="progressbar" aria-label="Resilience" style="width: {{ salesitem.resilience|multiply:3.33 }}%" aria-valuenow="{{ salesitem.resilience }}" aria-valuemin="0" aria-valuemax="30"></div>
+                                    </div>
+                                </td>
+                                <td class="py-0">
+                                    <div class="text-light">
+                                        {{ salesitem.resilience }}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-0">
+                                    <img src="http://www.bungie.net/common/destiny2_content/icons/128eee4ee7fc127851ab32eac6ca91cf.png" title="Recovery" width="25" height="25">
+                                </td>
+                                <td class="py-0">
+                                    <div class="progress">
+                                        <div class="progress-bar bg-secondary" role="progressbar" aria-label="Recovery" style="width: {{ salesitem.recovery|multiply:3.33 }}%" aria-valuenow="{{ salesitem.recovery }}" aria-valuemin="0" aria-valuemax="30"></div>
+                                    </div>
+                                </td>
+                                <td class="py-0">
+                                    <div class="text-light">
+                                        {{ salesitem.recovery }}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-0">
+                                    <img src="http://www.bungie.net/common/destiny2_content/icons/ca62128071dc254fe75891211b98b237.png" title="Discipline" width="25" height="25">
+                                </td>
+                                <td class="py-0">
+                                    <div class="progress">
+                                        <div class="progress-bar bg-secondary" role="progressbar" aria-label="Discipline" style="width: {{ salesitem.discipline|multiply:3.33 }}%" aria-valuenow="{{ salesitem.discipline }}" aria-valuemin="0" aria-valuemax="30"></div>
+                                    </div>
+                                </td>
+                                <td class="py-0">
+                                    <div class="text-light">
+                                        {{ salesitem.discipline }}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-0">
+                                    <img src="http://www.bungie.net/common/destiny2_content/icons/59732534ce7060dba681d1ba84c055a6.png" title="Intellect" width="25" height="25">
+                                </td>
+                                <td class="py-0">
+                                    <div class="progress">
+                                        <div class="progress-bar bg-secondary" role="progressbar" aria-label="Intellect" style="width: {{ salesitem.intellect|multiply:3.33 }}%" aria-valuenow="{{ salesitem.intellect }}" aria-valuemin="0" aria-valuemax="30"></div>
+                                    </div>
+                                </td>
+                                <td class="py-0">
+                                    <div class="text-light">
+                                        {{ salesitem.intellect }}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-0">
+                                    <img src="http://www.bungie.net/common/destiny2_content/icons/c7eefc8abbaa586eeab79e962a79d6ad.png" title="Strength" width="25" height="25">
+                                </td>
+                                <td class="py-0">
+                                    <div class="progress">
+                                        <div class="progress-bar bg-secondary" role="progressbar" aria-label="Strength" style="width: {{ salesitem.strength|multiply:3.33 }}%" aria-valuenow="{{ salesitem.strength }}" aria-valuemin="0" aria-valuemax="30"></div>
+                                    </div>
+                                </td>
+                                <td class="py-0">
+                                    <div class="text-light">
+                                        {{ salesitem.strength }}
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>{{ salesitem.recommend }}</td>
+                    <td>{{ salesitem.recommend }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 
 {% if user.is_authenticated %}
