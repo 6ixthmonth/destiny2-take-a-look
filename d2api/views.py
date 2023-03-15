@@ -18,7 +18,7 @@ DESTINY_MEMBERSHIP_ID = settings.DESTINY_MEMBERSHIP_ID
 MEMBERSHIP_TYPE = settings.MEMBERSHIP_TYPE
 
 REDIRECT_URI = "https://127.0.0.1:8000/"
-BASE_URL = "http://www.bungie.net"
+BASE_URL = "https://www.bungie.net"
 MANIFEST_URL = "/Platform/Destiny2/Manifest/"
 AUTHORIZATION_URL = "/en/oauth/authorize"
 TOKEN_URL = "/platform/app/oauth/token/"
@@ -34,30 +34,36 @@ LIMITED_TIME_VENDOR_HASH_LIST = [
 ]
 VENDOR_ITEM_INDEX_LIST = [
     [
-        [177, 178, 179, 180, 181],
+        # [177, 178, 179, 180, 181],
+        [147, 148, 149, 150, 151],
         [6, 7, 8, 9, 10],
         [6, 7, 8, 9, 10],
     ],  # Titan
     [
-        [172, 173, 174, 175, 176],
+        # [172, 173, 174, 175, 176],
+        [142, 143, 144, 145, 146],
         [1, 2, 3, 4, 5],
         [1, 2, 3, 4, 5],
     ],  # Hunter
     [
-        [182, 183, 184, 185, 186],
+        # [182, 183, 184, 185, 186],
+        [152, 153, 154, 155, 156],
         [11, 12, 13, 14, 15],
         [11, 12, 13, 14, 15],
     ],  # Warlock
 ]
 LIMITED_TIME_VENDOR_ITEM_INDEX_LIST = [
     [
-        [238, 239, 240, 241, 242],
+        # [238, 239, 240, 241, 242],
+        [448, 449, 450, 451, 452],
     ],  # Titan
     [
-        [233, 234, 235, 236, 237],
+        # [233, 234, 235, 236, 237],
+        [443, 444, 445, 446, 447],
     ],  # Hunter
     [
-        [243, 244, 245, 246, 247],
+        # [243, 244, 245, 246, 247],
+        [453, 454, 455, 456, 457],
     ],  # Warlock
 ]
 STAT_HASH_LIST = [
@@ -219,7 +225,7 @@ def get_limited_time_vendor_data(request):
 
             # request data from api
             endpoint_url = f"https://www.bungie.net/Platform/Destiny2/{membership_type}/Profile/{destiny_membership_id}/Character/{character_id}/Vendors/{vendor_hash}/?components={components}"
-            headers = {"X-API-Key": API_KEY}
+            headers = HEADERS
             try:
                 oauth = OAuth2Session(client_id=EXTRA['client_id'], auto_refresh_url=TOKEN_URL, auto_refresh_kwargs=EXTRA, token=request.session['oauth_token'])
                 response = oauth.get(url=endpoint_url, headers=headers)
@@ -238,7 +244,7 @@ def get_limited_time_vendor_data(request):
                 print(f"\t\t{item_hash=}")
 
                 if not Item.objects.filter(item_hash=item_hash).exists():
-                    destiny_inventory_item_definition = json.load(open('destiny-inventory-item-definition.json'))
+                    destiny_inventory_item_definition = json.load(open('destinyInventoryItemDefinition.json'))
                     item_name = destiny_inventory_item_definition[str(item_hash)]['displayProperties']['name']
                     item_type = destiny_inventory_item_definition[str(item_hash)]['itemTypeDisplayName']
                     class_type = destiny_inventory_item_definition[str(item_hash)]['classType']
