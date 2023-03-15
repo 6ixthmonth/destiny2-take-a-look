@@ -1,6 +1,10 @@
 # destiny2-take-a-look
 
 # library
+- autopep8
+  - pycodestyle
+  - tomli
+- django-environ
 - django-sslserver
 - djangorestframework
   - pytz
@@ -8,7 +12,6 @@
     - asgiref
     - sqlparse
     - tzdata
-- django-environ
 - requests-oauthlib
   - oauthlib
   - requests
