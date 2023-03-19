@@ -38,21 +38,21 @@
 </div>
 
 <div class="container my-5 text-center">
-    <h1 class="my-5">DESTINY 2 - TAKE A LOOK</h1>
+    <h1 class="my-5 text-primary">DESTINY 2 - TAKE A LOOK</h1>
     <p class="my-5">Check vendor sales history.</p>
 
     <div class="table-responsive">
-        <table class="table table-hover align-middle text-primary">
-            <thead class="table-primary">
+        <table class="table table-hover border-primary text-primary align-middle">
+            <thead class="table-primary text-primary">
                 <tr>
                     <th scope="col" style="width: 8%;">Icon</th>
                     <th scope="col" style="width: 16%;">Item name</th>
                     <th scope="col" style="width: 10%;">Item type</th>
-                    <th scope="col" style="width: 6%;">Class</th>
-                    <th scope="col" style="width: 12%;">Vendor</th>
+                    <th scope="col" style="width: 8%;">Class</th>
+                    <th scope="col" style="width: 18%;">Vendor</th>
                     <th scope="col" style="width: 10%;">Sales date</th>
                     <th scope="col">Stats</th>
-                    <th scope="col" colspan="2" style="width: 9%;">Recommend</th>
+                    <th scope="col" colspan="2" style="width: 10%;">Recommend</th>
                 </tr>
             </thead>
             <tbody class="table-group-divider">
@@ -102,7 +102,7 @@
                         <img class="icon" src="http://www.bungie.net/common/destiny2_content/icons/bc62282aea01969049a33d6c1ddffe2f.png" title="Warlock" width="48" height="48">
                         {% endif %}
                     </td>
-                    <td><img src="http://www.bungie.net{{ salesitem.vendor_hash.icon_url }}" title="{{ salesitem.vendor_hash.vendor_name }}" width="105" height="30"></td>
+                    <td><img src="http://www.bungie.net{{ salesitem.vendor_hash.icon_url }}" title="{{ salesitem.vendor_hash.vendor_name }}" width="168" height="48"></td>
                     <td>{{ salesitem.sales_date|date:"Y-m-d" }}</td>
                     <td>
                         <table class="table table-borderless my-0 align-middle text-primary">
