@@ -3,6 +3,8 @@ from pathlib import Path
 
 import environ
 
+from d2tal import service
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -32,9 +34,9 @@ MEMBERSHIP_TYPE = env('MEMBERSHIP_TYPE')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = env('DEBUG')
-DEBUG = True
+DEBUG = service.DEBUG
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = service.ALLOWED_HOSTS
 
 
 # Application definition
@@ -126,9 +128,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_ROOT = service.STATIC_ROOT
 
-STATICFILES_DIRS = [ BASE_DIR / 'static' ]
+STATIC_URL = service.STATIC_URL
+
+STATICFILES_DIRS = service.STATICFILES_DIRS
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
