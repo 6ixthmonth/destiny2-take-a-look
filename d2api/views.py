@@ -17,7 +17,7 @@ CHARACTER_ID_LIST = [settings.TITAN_ID, settings.HUNTER_ID, settings.WARLOCK_ID]
 DESTINY_MEMBERSHIP_ID = settings.DESTINY_MEMBERSHIP_ID
 MEMBERSHIP_TYPE = settings.MEMBERSHIP_TYPE
 
-REDIRECT_URI = "https://127.0.0.1:8000/"
+REDIRECT_URI = settings.REDIRECT_URI
 BASE_URL = "https://www.bungie.net"
 MANIFEST_URL = "/Platform/Destiny2/Manifest/"
 AUTHORIZATION_URL = "/en/oauth/authorize"
