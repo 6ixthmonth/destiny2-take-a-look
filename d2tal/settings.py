@@ -32,6 +32,9 @@ WARLOCK_ID = env('WARLOCK_ID')
 DESTINY_MEMBERSHIP_ID = env('DESTINY_MEMBERSHIP_ID')
 MEMBERSHIP_TYPE = env('MEMBERSHIP_TYPE')
 
+# API redirect uri
+REDIRECT_URI=env('REDIRECT_URI')
+
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = env('DEBUG')
 DEBUG = service.DEBUG
