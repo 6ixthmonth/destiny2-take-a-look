@@ -13,10 +13,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-env = environ.Env(
-    DEBUG=(bool, False)
-)
+environ.Env.read_env(BASE_DIR / '.env')
+env = environ.Env()
 
 SECRET_KEY = env('SECRET_KEY')
 
@@ -91,8 +89,12 @@ WSGI_APPLICATION = 'd2tal.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': '5432',
     }
 }
 
