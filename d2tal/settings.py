@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 import environ
@@ -7,34 +6,17 @@ from d2tal import service
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+environ.Env.read_env(BASE_DIR / '.env')
+env = environ.Env()
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-environ.Env.read_env(BASE_DIR / '.env')
-env = environ.Env()
-
 SECRET_KEY = env('SECRET_KEY')
 
-# Bungie.net Platform API key
-API_KEY = env('API_KEY')
-CLIENT_ID = env('CLIENT_ID')
-CLIENT_SECRET=env('CLIENT_SECRET')
-
-# Destiny character info
-TITAN_ID = env('TITAN_ID')
-HUNTER_ID = env('HUNTER_ID')
-WARLOCK_ID = env('WARLOCK_ID')
-DESTINY_MEMBERSHIP_ID = env('DESTINY_MEMBERSHIP_ID')
-MEMBERSHIP_TYPE = env('MEMBERSHIP_TYPE')
-
-# API redirect uri
-REDIRECT_URI=env('REDIRECT_URI')
-
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = env('DEBUG')
 DEBUG = service.DEBUG
 
 ALLOWED_HOSTS = service.ALLOWED_HOSTS
@@ -87,23 +69,7 @@ WSGI_APPLICATION = 'd2tal.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': env('DB_NAME'),
-#         'USER': env('DB_USER'),
-#         'PASSWORD': env('DB_PASSWORD'),
-#         'HOST': env('DB_HOST'),
-#         'PORT': '5432',
-#     }
-# }
+DATABASES = service.DATABASES
 
 
 # Password validation
@@ -146,7 +112,25 @@ STATIC_URL = service.STATIC_URL
 
 STATICFILES_DIRS = service.STATICFILES_DIRS
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Bungie.net Platform API
+# Authorization info
+API_KEY = env('API_KEY')
+CLIENT_ID = env('CLIENT_ID')
+CLIENT_SECRET=env('CLIENT_SECRET')
+
+# Destiny character info
+TITAN_ID = env('TITAN_ID')
+HUNTER_ID = env('HUNTER_ID')
+WARLOCK_ID = env('WARLOCK_ID')
+DESTINY_MEMBERSHIP_ID = env('DESTINY_MEMBERSHIP_ID')
+MEMBERSHIP_TYPE = env('MEMBERSHIP_TYPE')
+
+# API callback URI
+REDIRECT_URI=env('REDIRECT_URI')
