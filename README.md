@@ -1,11 +1,13 @@
 # destiny2-take-a-look
 
-# library
-- autopep8
-  - pycodestyle
-  - tomli
+# 개요
+
+# 개발 환경
+
+## Ubuntu package
+
+## Python library
 - django-environ
-- django-sslserver
 - djangorestframework
   - pytz
   - Django
@@ -19,5 +21,9 @@
     - charset-normalizer
     - idna
     - urllib3
+- gunicorn
+  - setuptools
+- psycopg2-binary
 - pip
-- setuptools
+
+# 주요 기능
