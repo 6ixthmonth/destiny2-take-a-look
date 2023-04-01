@@ -12,6 +12,7 @@
 {% block script %}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+<script src="{% static 'js/index.js' %}"></script>
 {% endblock script %}
 
 {% block body %}
@@ -190,6 +191,41 @@
             </tbody>
         </table>
     </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <!-- 이전 페이지 -->
+            {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="javascript:void(0)" data-page="1">&laquo;</a></li>
+            <li class="page-item"><a class="page-link" href="javascript:void(0)" data-page="{{ page_obj.previous_page_number }}">&lsaquo;</a></li>
+            {% else %}
+            <li class="page-item disabled"><a class="page-link" href="javascript:void(0)" tabindex="-1">&laquo;</a></li>
+            <li class="page-item disabled"><a class="page-link" href="javascript:void(0)" tabindex="-1">&lsaquo;</a></li>
+            {% endif %}
+            <!-- 페이지 목록 -->
+            {% for page_number in page_obj.paginator.page_range %}
+            {% if page_number >= page_obj.number|add:-5 and page_number <= page_obj.number|add:5 %}
+            {% if page_number == page_obj.number %}
+            <li class="page-item active"><a class="page-link" href="javascript:void(0)" data-page="{{ page_number }}">{{ page_number }}</a></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="javascript:void(0)" data-page="{{ page_number }}">{{ page_number }}</a></li>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+            <!-- 다음 페이지 -->
+            {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="javascript:void(0)" data-page="{{ page_obj.next_page_number }}">&rsaquo;</a></li>
+            <li class="page-item"><a class="page-link" href="javascript:void(0)" data-page="{{ page_obj.paginator.num_pages }}">&raquo;</a></li>
+            {% else %}
+            <li class="page-item disabled"><a class="page-link" href="javascript:void(0)" tabindex="-1">&rsaquo;</a></li>
+            <li class="page-item disabled"><a class="page-link" href="javascript:void(0)" tabindex="-1">&raquo;</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <form id="searchForm">
+        <input type="hidden" id="page" name="page" value="1">
+    </form>
 </div>
 
 {% if user.is_authenticated %}
