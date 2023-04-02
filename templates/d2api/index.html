@@ -249,6 +249,13 @@
     <button onclick="getVendorData();">Get Vendor Data</button>
     <button onclick="getLimitedTimeVendorData()">Get Limited Time Vendor Data</button>
 </fieldset>
+<fieldset>
+    <legend>Datascience</legend>
+    <button disabled="disabled">Train Titan model</button>
+    <button disabled="disabled">Train Hunter model</button>
+    <button disabled="disabled">Train Warlock model</button>
+    <button disabled="disabled">Predict data</button>
+</fieldset>
 <script>
     // manifest functions
     function getManifest() { $.ajax("{% url 'd2api:get_manifest' %}"); }
@@ -271,7 +278,7 @@
     function getAuth() {
         $.ajax("{% url 'd2api:get_auth' %}"
         ).done(function (data) {
-            location.href = data['authorization_url'];
+            location.href = data['auth_url'];
         }).fail(function (e) {
             console.log(e);
         });
