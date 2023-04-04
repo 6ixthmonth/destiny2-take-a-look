@@ -31,9 +31,24 @@
 - psycopg2-binary
 - pip
 
+- pandas
+  - numpy
+  - python-dateutil
+    - six
+- matplotlib
+  - contourpy
+  - cycler
+  - fonttools
+  - kiwisolver
+  - packaging
+  - Pillow
+  - pyparsing
+
 ---
 
 ## 주요 기능
+
+### 데스티니2 상인 판매 데이터 수집
 
 ### 아이템 조회
 
