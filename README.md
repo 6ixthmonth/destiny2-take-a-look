@@ -11,38 +11,20 @@
 ### Ubuntu package
 
 ### Python library
+- Django
 - django-environ
 - django-sslserver
 - djangorestframework
-  - pytz
-  - Django
-    - asgiref
-    - sqlparse
-    - tzdata
 - requests-oauthlib
-  - oauthlib
-  - requests
-    - certifi
-    - charset-normalizer
-    - idna
-    - urllib3
-- gunicorn
-  - setuptools
-- psycopg2-binary
-- pip
 
-- pandas
-  - numpy
-  - python-dateutil
-    - six
+- gunicorn
+- psycopg2-binary
+
 - matplotlib
-  - contourpy
-  - cycler
-  - fonttools
-  - kiwisolver
-  - packaging
-  - Pillow
-  - pyparsing
+- pandas
+
+- sklearn
+- tensorflow
 
 ---
 
