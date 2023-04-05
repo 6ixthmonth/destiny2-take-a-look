@@ -1,20 +1,20 @@
 window.onload = function () {
-    let page_elements = document.getElementsByClassName('page-link');
-    Array.from(page_elements).forEach(function (element) {
-        element.addEventListener('click', function () {
-            document.getElementById('page').value = this.dataset.page;
-            document.getElementById('filterForm').submit();
-        });
-    });
+    document.querySelectorAll('.page-link').forEach(element => { element.addEventListener('click', movePage); });
 
-    document.getElementById('filterForm').addEventListener('reset', function() {
+    document.getElementById('filterForm').addEventListener('reset', function () {
         document.querySelectorAll('a.btn.active').forEach(buttonElement => {
-            const button = bootstrap.Button.getOrCreateInstance(buttonElement);
-            button.toggle();
+            bootstrap.Button.getOrCreateInstance(buttonElement).toggle();
         });
     });
 
-    document.getElementById('filterForm').addEventListener('submit', function() {
-        alert('!');
+    document.getElementById('filterForm').addEventListener('submit', function () {
+        document.querySelectorAll('a.btn.active').forEach(buttonElement => {
+            buttonElement.firstElementChild.checked = "checked";
+        });
     });
 };
+
+function movePage() {
+    document.getElementById('page').value = this.dataset.page;
+    document.getElementById('filterForm').submit();
+}
