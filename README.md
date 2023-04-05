@@ -23,7 +23,7 @@
 - matplotlib
 - pandas
 
-- sklearn
+- scikit-learn
 - tensorflow
 
 ---
