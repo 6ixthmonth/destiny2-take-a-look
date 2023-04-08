@@ -17,12 +17,12 @@
 
 {% block body %}
 <div class="fixed-top">
-    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Filter</button>
+    <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Filter</button>
 </div>
 
-<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+<div id="offcanvasWithBothOptions" class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" aria-labelledby="offcanvasWithBothOptionsLabel">
     <div class="offcanvas-header">
-        <h1 class="offcanvas-title text-primary" id="offcanvasWithBothOptionsLabel">Filter</h1>
+        <h1 id="offcanvasWithBothOptionsLabel" class="offcanvas-title text-primary">Filter</h1>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
@@ -75,7 +75,9 @@
                                     </svg>
                                 </a>
                                 <a href="javascript:void(0);" class="btn btn-outline-primary p-1" role="button" data-bs-toggle="button">
-                                    <input type="checkbox" class="d-none" name="itemType" value="Class Item">
+                                    <input type="checkbox" class="d-none" name="itemType" value="Titan Mark">
+                                    <input type="checkbox" class="d-none" name="itemType" value="Hunter Cloak">
+                                    <input type="checkbox" class="d-none" name="itemType" value="Warlock Bond">
                                     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 51 51' width="24" height="24">
                                         <path d='M43.12 7.12c-4.13 2.33-17.62 1.9-17.62 1.9s-13.49.43-17.62-1.9c-.37-.21-.85-.03-.94.39-.36 1.49-.87 4.42.09 5.86.09.13.22.21.38.25 1.23.3 7.36 1.65 18.09 1.65s16.86-1.35 18.09-1.65c.15-.04.29-.12.38-.25.96-1.44.45-4.37.1-5.86-.1-.42-.58-.6-.95-.39zM9.27 28.34s0 2.34 2.27 2.34 2.27-2.34 2.27-2.34V15.73c-1.93-.22-3.45-.45-4.55-.65v13.26zM16.3 34.8s0 2.34 2.27 2.34 2.27-2.34 2.27-2.34V16.24c-1.66-.06-3.18-.16-4.55-.27V34.8zM37.18 28.34s0 2.34 2.27 2.34 2.27-2.34 2.27-2.34V15.08c-1.09.2-2.61.44-4.55.65v12.61zM30.15 34.8s0 2.34 2.27 2.34 2.27-2.34 2.27-2.34V15.97c-1.36.11-2.88.21-4.55.27V34.8zM23.23 16.31v25.31s0 2.34 2.27 2.34 2.27-2.34 2.27-2.34V16.31c-.74.01-1.49.02-2.27.02-.78.01-1.54 0-2.27-.02z' fill="#0a58ca">
                                             <title>Class Item</title>
@@ -89,15 +91,15 @@
                             <td>
                                 <a href="javascript:void(0);" class="btn btn-outline-primary p-1" role="button" data-bs-toggle="button">
                                     <input type="checkbox" class="d-none" name="class" value="0">
-                                    <img class="icon" src="http://www.bungie.net/common/destiny2_content/icons/e19db7ef99282a166ff9c650d5bafdc8.png" title="Titan" width="24" height="24">
+                                    <img src="http://www.bungie.net/common/destiny2_content/icons/e19db7ef99282a166ff9c650d5bafdc8.png" class="icon" title="Titan" width="24" height="24">
                                 </a>
                                 <a href="javascript:void(0);" class="btn btn-outline-primary p-1" role="button" data-bs-toggle="button">
                                     <input type="checkbox" class="d-none" name="class" value="1">
-                                    <img class="icon" src="http://www.bungie.net/common/destiny2_content/icons/dc8dfdde34e25b92afb5403882c9983b.png" title="Hunter" width="24" height="24">
+                                    <img src="http://www.bungie.net/common/destiny2_content/icons/dc8dfdde34e25b92afb5403882c9983b.png" class="icon" title="Hunter" width="24" height="24">
                                 </a>
                                 <a href="javascript:void(0);" class="btn btn-outline-primary p-1" role="button" data-bs-toggle="button">
                                     <input type="checkbox" class="d-none" name="class" value="2">
-                                    <img class="icon" src="http://www.bungie.net/common/destiny2_content/icons/bc62282aea01969049a33d6c1ddffe2f.png" title="Warlock" width="24" height="24">
+                                    <img src="http://www.bungie.net/common/destiny2_content/icons/bc62282aea01969049a33d6c1ddffe2f.png" class="icon" title="Warlock" width="24" height="24">
                                 </a>
                             </td>
                         </tr>
@@ -106,19 +108,19 @@
                             <td>
                                 <div class="form-check form-switch">
                                     <input type="checkbox" id="flexSwitchCheck1" class="form-check-input" name="vendor" value="Ada-1" role="switch">
-                                    <label class="form-check-label" for="flexSwitchCheck1">Ada-1</label>
+                                    <label for="flexSwitchCheck1" class="form-check-label">Ada-1</label>
                                 </div>
                                 <div class="form-check form-switch">
                                     <input type="checkbox" id="flexSwitchCheck2" class="form-check-input" name="vendor" value="Devrim Kay" role="switch">
-                                    <label class="form-check-label" for="flexSwitchCheck2">Devrim Kay</label>
+                                    <label for="flexSwitchCheck2" class="form-check-label">Devrim Kay</label>
                                 </div>
                                 <div class="form-check form-switch">
                                     <input type="checkbox" id="flexSwitchCheck3" class="form-check-input" name="vendor" value="Failsafe" role="switch">
-                                    <label class="form-check-label" for="flexSwitchCheck3">Failsafe</label>
+                                    <label for="flexSwitchCheck3" class="form-check-label">Failsafe</label>
                                 </div>
                                 <div class="form-check form-switch">
                                     <input type="checkbox" id="flexSwitchCheck4" class="form-check-input" name="vendor" value="Xûr" role="switch">
-                                    <label class="form-check-label" for="flexSwitchCheck4">Xûr</label>
+                                    <label for="flexSwitchCheck4" class="form-check-label">Xûr</label>
                                 </div>
                             </td>
                         </tr>
@@ -135,32 +137,32 @@
                             <th scope="row">Stats</th>
                             <td>
                                 <div class="input-group">
-                                    <span class="input-group-text"><img class="icon" src="http://www.bungie.net/common/destiny2_content/icons/e26e0e93a9daf4fdd21bf64eb9246340.png" title="Mobility" width="25" height="25"></span>
+                                    <span class="input-group-text"><img src="http://www.bungie.net/common/destiny2_content/icons/e26e0e93a9daf4fdd21bf64eb9246340.png" class="icon" title="Mobility" width="25" height="25"></span>
                                     <input type="number" class="form-control" name="minMobility" placeholder="min">
                                     <input type="number" class="form-control" name="maxMobility" placeholder="max">
                                 </div>
                                 <div class="input-group">
-                                    <span class="input-group-text"><img class="icon" src="http://www.bungie.net/common/destiny2_content/icons/202ecc1c6febeb6b97dafc856e863140.png" title="Resilience" width="25" height="25"></span>
+                                    <span class="input-group-text"><img src="http://www.bungie.net/common/destiny2_content/icons/202ecc1c6febeb6b97dafc856e863140.png" class="icon" title="Resilience" width="25" height="25"></span>
                                     <input type="number" class="form-control" name="minResilience" placeholder="min">
                                     <input type="number" class="form-control" name="maxResilience" placeholder="max">
                                 </div>
                                 <div class="input-group">
-                                    <span class="input-group-text"><img class="icon" src="http://www.bungie.net/common/destiny2_content/icons/128eee4ee7fc127851ab32eac6ca91cf.png" title="Recovery" width="25" height="25"></span>
+                                    <span class="input-group-text"><img src="http://www.bungie.net/common/destiny2_content/icons/128eee4ee7fc127851ab32eac6ca91cf.png" class="icon" title="Recovery" width="25" height="25"></span>
                                     <input type="number" class="form-control" name="minRecovery" placeholder="min">
                                     <input type="number" class="form-control" name="maxRecovery" placeholder="max">
                                 </div>
                                 <div class="input-group">
-                                    <span class="input-group-text"><img class="icon" src="http://www.bungie.net/common/destiny2_content/icons/ca62128071dc254fe75891211b98b237.png" title="Discipline" width="25" height="25"></span>
+                                    <span class="input-group-text"><img src="http://www.bungie.net/common/destiny2_content/icons/ca62128071dc254fe75891211b98b237.png" class="icon" title="Discipline" width="25" height="25"></span>
                                     <input type="number" class="form-control" name="minDiscipline" placeholder="min">
                                     <input type="number" class="form-control" name="maxDiscipline" placeholder="max">
                                 </div>
                                 <div class="input-group">
-                                    <span class="input-group-text"><img class="icon" src="http://www.bungie.net/common/destiny2_content/icons/59732534ce7060dba681d1ba84c055a6.png" title="Intellect" width="25" height="25"></span>
+                                    <span class="input-group-text"><img src="http://www.bungie.net/common/destiny2_content/icons/59732534ce7060dba681d1ba84c055a6.png" class="icon" title="Intellect" width="25" height="25"></span>
                                     <input type="number" class="form-control" name="minIntellect" placeholder="min">
                                     <input type="number" class="form-control" name="maxIntellect" placeholder="max">
                                 </div>
                                 <div class="input-group">
-                                    <span class="input-group-text"><img class="icon" src="http://www.bungie.net/common/destiny2_content/icons/c7eefc8abbaa586eeab79e962a79d6ad.png" title="Strength" width="25" height="25"></span>
+                                    <span class="input-group-text"><img src="http://www.bungie.net/common/destiny2_content/icons/c7eefc8abbaa586eeab79e962a79d6ad.png" class="icon" title="Strength" width="25" height="25"></span>
                                     <input type="number" class="form-control" name="minStrength" placeholder="min">
                                     <input type="number" class="form-control" name="maxStrength" placeholder="max">
                                 </div>
@@ -241,11 +243,11 @@
                     </td>
                     <td>
                         {% if salesitem.item_hash.class_type == 0 %}
-                        <img class="icon" src="http://www.bungie.net/common/destiny2_content/icons/e19db7ef99282a166ff9c650d5bafdc8.png" title="Titan" width="48" height="48">
+                        <img src="http://www.bungie.net/common/destiny2_content/icons/e19db7ef99282a166ff9c650d5bafdc8.png" class="icon" title="Titan" width="48" height="48">
                         {% elif salesitem.item_hash.class_type == 1 %}
-                        <img class="icon" src="http://www.bungie.net/common/destiny2_content/icons/dc8dfdde34e25b92afb5403882c9983b.png" title="Hunter" width="48" height="48">
+                        <img src="http://www.bungie.net/common/destiny2_content/icons/dc8dfdde34e25b92afb5403882c9983b.png" class="icon" title="Hunter" width="48" height="48">
                         {% else %}
-                        <img class="icon" src="http://www.bungie.net/common/destiny2_content/icons/bc62282aea01969049a33d6c1ddffe2f.png" title="Warlock" width="48" height="48">
+                        <img src="http://www.bungie.net/common/destiny2_content/icons/bc62282aea01969049a33d6c1ddffe2f.png" class="icon" title="Warlock" width="48" height="48">
                         {% endif %}
                     </td>
                     <td><img src="http://www.bungie.net{{ salesitem.vendor_hash.icon_url }}" title="{{ salesitem.vendor_hash.vendor_name }}" width="168" height="48"></td>
@@ -254,17 +256,17 @@
                         <table class="table table-borderless table-sm my-0">
                             <tbody class="text-primary">
                                 <tr>
-                                   <th class="p-0" style="width: 5.55%;"><img class="icon" src="http://www.bungie.net/common/destiny2_content/icons/e26e0e93a9daf4fdd21bf64eb9246340.png" title="Mobility" width="25" height="25"></th>
+                                   <th class="p-0" style="width: 5.55%;"><img src="http://www.bungie.net/common/destiny2_content/icons/e26e0e93a9daf4fdd21bf64eb9246340.png" class="icon" title="Mobility" width="24" height="24"></th>
                                    <td class="p-0" style="width: 11.1%;">{{ salesitem.mobility }}</td>
-                                   <th class="p-0" style="width: 5.55%;"><img class="icon" src="http://www.bungie.net/common/destiny2_content/icons/202ecc1c6febeb6b97dafc856e863140.png" title="Resilience" width="25" height="25"></th>
+                                   <th class="p-0" style="width: 5.55%;"><img src="http://www.bungie.net/common/destiny2_content/icons/202ecc1c6febeb6b97dafc856e863140.png" class="icon" title="Resilience" width="24" height="24"></th>
                                    <td class="p-0" style="width: 11.1%;">{{ salesitem.resilience }}</td>
-                                   <th class="p-0" style="width: 5.55%;"><img class="icon" src="http://www.bungie.net/common/destiny2_content/icons/128eee4ee7fc127851ab32eac6ca91cf.png" title="Recovery" width="25" height="25"></th>
+                                   <th class="p-0" style="width: 5.55%;"><img src="http://www.bungie.net/common/destiny2_content/icons/128eee4ee7fc127851ab32eac6ca91cf.png" class="icon" title="Recovery" width="24" height="24"></th>
                                    <td class="p-0" style="width: 11.1%;">{{ salesitem.recovery }}</td>
-                                   <th class="p-0" style="width: 5.55%;"><img class="icon" src="http://www.bungie.net/common/destiny2_content/icons/ca62128071dc254fe75891211b98b237.png" title="Discipline" width="25" height="25"></th>
+                                   <th class="p-0" style="width: 5.55%;"><img src="http://www.bungie.net/common/destiny2_content/icons/ca62128071dc254fe75891211b98b237.png" class="icon" title="Discipline" width="24" height="24"></th>
                                    <td class="p-0" style="width: 11.1%;">{{ salesitem.discipline }}</td>
-                                   <th class="p-0" style="width: 5.55%;"><img class="icon" src="http://www.bungie.net/common/destiny2_content/icons/59732534ce7060dba681d1ba84c055a6.png" title="Intellect" width="25" height="25"></th>
+                                   <th class="p-0" style="width: 5.55%;"><img src="http://www.bungie.net/common/destiny2_content/icons/59732534ce7060dba681d1ba84c055a6.png" class="icon" title="Intellect" width="24" height="24"></th>
                                    <td class="p-0" style="width: 11.1%;">{{ salesitem.intellect }}</td>
-                                   <th class="p-0" style="width: 5.55%;"><img class="icon" src="http://www.bungie.net/common/destiny2_content/icons/c7eefc8abbaa586eeab79e962a79d6ad.png" title="Strength" width="25" height="25"></th>
+                                   <th class="p-0" style="width: 5.55%;"><img src="http://www.bungie.net/common/destiny2_content/icons/c7eefc8abbaa586eeab79e962a79d6ad.png" class="icon" title="Strength" width="24" height="24"></th>
                                    <td class="p-0" style="width: 11.1%;">{{ salesitem.strength }}</td>
                                 </tr>
                             </tbody>
@@ -283,29 +285,29 @@
         <ul class="pagination justify-content-center">
             <!-- first & previous page -->
             {% if page_obj.has_previous %}
-            <li class="page-item"><a class="page-link" href="javascript:void(0);" data-page="1">&laquo;</a></li>
-            <li class="page-item"><a class="page-link" href="javascript:void(0);" data-page="{{ page_obj.previous_page_number }}">&lsaquo;</a></li>
+            <li class="page-item"><a href="javascript:void(0);" class="page-link" data-page="1">&laquo;</a></li>
+            <li class="page-item"><a href="javascript:void(0);" class="page-link" data-page="{{ page_obj.previous_page_number }}">&lsaquo;</a></li>
             {% else %}
-            <li class="page-item disabled"><a class="page-link" href="javascript:void(0);" tabindex="-1">&laquo;</a></li>
-            <li class="page-item disabled"><a class="page-link" href="javascript:void(0);" tabindex="-1">&lsaquo;</a></li>
+            <li class="page-item disabled"><a href="javascript:void(0);" class="page-link" tabindex="-1">&laquo;</a></li>
+            <li class="page-item disabled"><a href="javascript:void(0);" class="page-link" tabindex="-1">&lsaquo;</a></li>
             {% endif %}
             <!-- list of pages -->
             {% for page_number in page_obj.paginator.page_range %}
             {% if page_number >= page_obj.number|add:-5 and page_number <= page_obj.number|add:5 %}
             {% if page_number == page_obj.number %}
-            <li class="page-item active" aria-current="page"><a class="page-link" href="javascript:void(0);" data-page="{{ page_number }}">{{ page_number }}</a></li>
+            <li class="page-item active" aria-current="page"><a href="javascript:void(0);" class="page-link" data-page="{{ page_number }}">{{ page_number }}</a></li>
             {% else %}
-            <li class="page-item"><a class="page-link" href="javascript:void(0);" data-page="{{ page_number }}">{{ page_number }}</a></li>
+            <li class="page-item"><a href="javascript:void(0);" class="page-link" data-page="{{ page_number }}">{{ page_number }}</a></li>
             {% endif %}
             {% endif %}
             {% endfor %}
             <!-- next & last page -->
             {% if page_obj.has_next %}
-            <li class="page-item"><a class="page-link" href="javascript:void(0);" data-page="{{ page_obj.next_page_number }}">&rsaquo;</a></li>
-            <li class="page-item"><a class="page-link" href="javascript:void(0);" data-page="{{ page_obj.paginator.num_pages }}">&raquo;</a></li>
+            <li class="page-item"><a href="javascript:void(0);" class="page-link" data-page="{{ page_obj.next_page_number }}">&rsaquo;</a></li>
+            <li class="page-item"><a href="javascript:void(0);" class="page-link" data-page="{{ page_obj.paginator.num_pages }}">&raquo;</a></li>
             {% else %}
-            <li class="page-item disabled"><a class="page-link" href="javascript:void(0);" tabindex="-1">&rsaquo;</a></li>
-            <li class="page-item disabled"><a class="page-link" href="javascript:void(0);" tabindex="-1">&raquo;</a></li>
+            <li class="page-item disabled"><a href="javascript:void(0);" class="page-link" tabindex="-1">&rsaquo;</a></li>
+            <li class="page-item disabled"><a href="javascript:void(0);" class="page-link" tabindex="-1">&raquo;</a></li>
             {% endif %}
         </ul>
     </nav>
