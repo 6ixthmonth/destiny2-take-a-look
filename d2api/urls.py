@@ -10,4 +10,5 @@ urlpatterns = [
     path('fetch-token/', views.fetch_token, name='fetch_token'),
     path('get-vendor-data/', views.get_vendor_data, name='get_vendor_data'),
     path('get-limited-time-vendor-Data/', views.get_limited_time_vendor_data, name='get_limited_time_vendor_data'),
+    path('predict-item/', views.predict_item, name='predict_item'),
 ]

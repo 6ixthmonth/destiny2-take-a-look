@@ -30,3 +30,5 @@ class SalesItem(models.Model):
     discipline = models.PositiveSmallIntegerField(default=0)
     intellect = models.PositiveSmallIntegerField(default=0)
     strength = models.PositiveSmallIntegerField(default=0)
+    pve_recommendation = models.FloatField(default=0.0)
+    pvp_recommendation = models.FloatField(default=0.0)

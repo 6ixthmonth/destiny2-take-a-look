@@ -2,11 +2,13 @@ import json
 import os
 from datetime import timedelta
 
+import pandas as pd
 import requests
 from django.conf import settings
 from django.http import JsonResponse
 from django.utils import timezone
 from requests_oauthlib import OAuth2Session, TokenUpdated
+from tensorflow.keras.models import load_model
 
 from d2api.models import Item, SalesItem, Vendor
 
@@ -296,4 +298,29 @@ def get_limited_time_vendor_data(request):
                 new_sales_item.sales_date = sales_date
 
                 new_sales_item.save()
+    return JsonResponse({})
+
+def predict_item(request):
+    body = json.loads(request.body)
+    class_type = body['classType']
+    match class_type:
+        case 0:
+            class_model = load_model("dataset/titan.h5")
+        case 1:
+            class_model = load_model("dataset/hunter.h5")
+        case 2:
+            class_model = load_model("dataset/warlock.h5")
+    common_model = load_model("dataset/common.h5")
+    item_list = SalesItem.objects.filter(item_hash__class_type=class_type, item_hash__item_type__in=['Helmet', 'Gauntlets', 'Chest Armor', 'Leg Armor'], pve_recommendation=0, pvp_recommendation=0)
+    for item in item_list:
+        x_test1 = pd.DataFrame([[item.mobility, item.resilience, item.recovery]])
+        x_test1 = (x_test1 - 2) / 28
+        result1 = class_model.predict(x_test1)
+        x_test2 = pd.DataFrame([[item.mobility, item.resilience, item.recovery]])
+        x_test2 = (x_test2 - 2) / 28
+        result2 = common_model.predict(x_test2)
+        item.pve_recommendation = round((result1[0][0] + result2[0][0]) / 2, 6)
+        item.pvp_recommendation = round((result1[0][1] + result2[0][1]) / 2, 6)
+        item.save()
+
     return JsonResponse({})
