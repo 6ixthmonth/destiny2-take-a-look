@@ -1,5 +1,5 @@
 # destiny2-take-a-look
-<img src="https://user-images.githubusercontent.com/42332051/231317411-e5c17825-fcc8-41de-8470-428e972f80a8.png" width="960" height="540">
+<img src="https://user-images.githubusercontent.com/42332051/231317411-e5c17825-fcc8-41de-8470-428e972f80a8.png" width="768" height="432">
 
 ---
 
