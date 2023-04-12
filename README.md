@@ -1,4 +1,5 @@
 # destiny2-take-a-look
+<img src="https://user-images.githubusercontent.com/42332051/231317411-e5c17825-fcc8-41de-8470-428e972f80a8.png" width="640" height="360">
 
 ---
 
@@ -33,7 +34,5 @@
 ### 데스티니2 상인 판매 데이터 수집
 
 ### 아이템 조회
-
-### 필터
 
 ### 인공지능 기반 구매 추천
