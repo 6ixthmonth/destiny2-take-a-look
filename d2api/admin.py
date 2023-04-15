@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from d2api.models import Item, SalesItem, Vendor
 
+
 class ItemAdmin(admin.ModelAdmin):
     list_display = ('item_hash', 'item_name')
 
