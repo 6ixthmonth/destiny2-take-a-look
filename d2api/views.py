@@ -7,8 +7,9 @@ import requests
 from django.conf import settings
 from django.http import JsonResponse
 from django.utils import timezone
+from keras.models import load_model
 from requests_oauthlib import OAuth2Session, TokenUpdated
-from tensorflow.keras.models import load_model
+from tensorflow import keras
 
 from d2api.models import Item, SalesItem, Vendor
 
@@ -311,12 +312,13 @@ def predict_item(request):
         case 2:
             class_model = load_model("dataset/warlock.h5")
     common_model = load_model("dataset/common.h5")
-    item_list = SalesItem.objects.filter(item_hash__class_type=class_type, item_hash__item_type__in=['Helmet', 'Gauntlets', 'Chest Armor', 'Leg Armor'], pve_recommendation=0, pvp_recommendation=0)
+
+    item_list = SalesItem.objects.filter(item_hash__item_type__in=['Helmet', 'Gauntlets', 'Chest Armor', 'Leg Armor'], item_hash__class_type=class_type, pve_recommendation=0, pvp_recommendation=0)
     for item in item_list:
         x_test1 = pd.DataFrame([[item.mobility, item.resilience, item.recovery]])
         x_test1 = (x_test1 - 2) / 28
         result1 = class_model.predict(x_test1)
-        x_test2 = pd.DataFrame([[item.mobility, item.resilience, item.recovery]])
+        x_test2 = pd.DataFrame([[item.discipline, item.intellect, item.strength]])
         x_test2 = (x_test2 - 2) / 28
         result2 = common_model.predict(x_test2)
         item.pve_recommendation = round((result1[0][0] + result2[0][0]) / 2, 6)
