@@ -5,7 +5,7 @@ from d2api.models import SalesItem
 
 class HomeView(ListView):
 
-    template_name = "d2api/index.html"
+    template_name = "d2tal/index.html"
     paginate_by = 10
 
     def get_queryset(self):
