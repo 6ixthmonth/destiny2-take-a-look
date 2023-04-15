@@ -2,7 +2,7 @@
 
 <img src="https://user-images.githubusercontent.com/42332051/231317411-e5c17825-fcc8-41de-8470-428e972f80a8.png" title="overview" width="768" height="432">
 
-https://d2tal.com
+[링크](https://d2tal.com)
 
 ---
 
@@ -14,10 +14,6 @@ https://d2tal.com
 
 ## 개발 환경
 
-### Ubuntu package
-
-- ㅇ
-
 ### Python library
 
 - Django
@@ -27,7 +23,7 @@ https://d2tal.com
 - requests-oauthlib
 
 - gunicorn
-- psycopg2-binary
+- mysqlclient
 
 - matplotlib
 - pandas
@@ -37,26 +33,28 @@ https://d2tal.com
 
 ### Database
 
-- Postgresql
+- MySQL
 
 ### Service
 
 - AWS LightSail
+- AWS RDS
+- AWS Route 53
 
 ---
 
 ## 주요 기능
 
-### 데스티니2 상인 판매 데이터 수집
+### 'Destiny 2' 상인 판매 데이터 수집
 
-설명
+- *Bungie.net Platform API*를 통해 OAuth2.0 방식으로 데이터를 가져온다.
 
 ### 아이템 조회
 
-조회
-페이징
-필터
+- 조회
+- 페이징
+- 필터
 
 ### 인공지능 기반 구매 추천
 
-설명
+- 심층신경망(Deep Neural Network, DNN) 방식으로 구현하였음.
