@@ -17,6 +17,8 @@
 - django-sslserver
 - djangorestframework
 - requests-oauthlib
+- celery
+- django-celery-results
 
 - gunicorn
 - mysqlclient
@@ -68,4 +70,5 @@
   - output layer는 0에서 1 사이의 값을 가져야 하기 때문에 activation function으로 sigmoid를 사용한다.
   - 다른 layer는 activation function으로 relu를 사용한다.
   - optimizer function은 adam, loss는 mse로 compile한다.
+- 6종류의 능력치는 각각 최소 2부터 최대 30까지의 범위에서 임의의 값을 가지기 때문에 MinMaxScaler를 사용하여 스케일링한다.
 - 어느 한 아이템의 추천도를 구하기 위해, 직업 모델을 통해 PVE 및 PVP 추천도를 구하고, 공통 모델을 통해 마찬가지로 PVE 및 PVP 추천도를 구해 평균을 계산하여 최종 추천도를 구한다.
