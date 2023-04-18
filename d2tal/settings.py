@@ -11,12 +11,9 @@ env = environ.Env()
 
 
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = service.DEBUG
 
 ALLOWED_HOSTS = service.ALLOWED_HOSTS
@@ -33,6 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'd2api.apps.D2ApiConfig',
     'sslserver',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -67,13 +65,11 @@ WSGI_APPLICATION = 'd2tal.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = service.DATABASES
 
 
 # Password validation
-# https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -92,7 +88,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/4.1/topics/i18n/
 
 LANGUAGE_CODE = 'ko-kr'
 
@@ -104,7 +99,6 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_ROOT = service.STATIC_ROOT
 
@@ -114,12 +108,12 @@ STATICFILES_DIRS = service.STATICFILES_DIRS
 
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Bungie.net Platform API
+
 # Authorization info
 API_KEY = env('API_KEY')
 CLIENT_ID = env('CLIENT_ID')
@@ -133,4 +127,10 @@ DESTINY_MEMBERSHIP_ID = env('DESTINY_MEMBERSHIP_ID')
 MEMBERSHIP_TYPE = env('MEMBERSHIP_TYPE')
 
 # API callback URI
-REDIRECT_URI=env('REDIRECT_URI')
+REDIRECT_URI = env('REDIRECT_URI')
+
+
+# Celery Configuration Options
+CELERY_TIMEZONE = "Asia/Seoul"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
