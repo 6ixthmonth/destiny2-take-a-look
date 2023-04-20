@@ -66,7 +66,16 @@ WSGI_APPLICATION = 'd2tal.wsgi.application'
 
 # Database
 
-DATABASES = service.DATABASES
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
+    }
+}
 
 
 # Password validation
@@ -110,6 +119,7 @@ STATICFILES_DIRS = service.STATICFILES_DIRS
 # Default primary key field type
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 
 # Logging
 
