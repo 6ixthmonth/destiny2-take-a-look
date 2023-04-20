@@ -12,8 +12,10 @@ env = environ.Env()
 
 # Quick-start development settings - unsuitable for production
 
+# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = service.DEBUG
 
 ALLOWED_HOSTS = service.ALLOWED_HOSTS
@@ -66,14 +68,21 @@ WSGI_APPLICATION = 'd2tal.wsgi.application'
 
 # Database
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': env('DB_NAME'),
+#         'USER': env('DB_USER'),
+#         'PASSWORD': env('DB_PASSWORD'),
+#         'HOST': env('DB_HOST'),
+#         'PORT': env('DB_PORT'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST'),
-        'PORT': env('DB_PORT'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -114,7 +123,6 @@ STATIC_ROOT = service.STATIC_ROOT
 STATIC_URL = service.STATIC_URL
 
 STATICFILES_DIRS = service.STATICFILES_DIRS
-
 
 # Default primary key field type
 
