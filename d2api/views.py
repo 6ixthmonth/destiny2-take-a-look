@@ -44,7 +44,7 @@ STAT_HASH_LIST = [
 ]
 
 def get_manifest(request):
-    file_name = 'manifest.json'
+    file_name = 'manifest/manifest.json'
 
     if not os.path.exists(file_name):
         response = requests.get(url=BASE_URL+MANIFEST_URL, headers=HEADERS)
@@ -56,16 +56,16 @@ def get_manifest(request):
     return JsonResponse({})
 
 def get_definition(request):
-    if not os.path.exists('manifest.json'):
+    if not os.path.exists('manifest/manifest.json'):
         print("Download manifest file first.")
         return JsonResponse({})
     else:
-        manifest = json.load(open('manifest.json'))
+        manifest = json.load(open('manifest/manifest.json'))
     
     body = json.loads(request.body)
     param = body['param']
     definition_name = 'Destiny' + "".join(word.capitalize() for word in param.split()) + 'Definition'
-    file_name = definition_name + '.json'
+    file_name = 'manifest/' + definition_name + '.json'
     
     if not os.path.exists(file_name):
         response = requests.get(url=BASE_URL+manifest['Response']['jsonWorldComponentContentPaths']['en'][definition_name])
@@ -118,7 +118,7 @@ def get_vendor_data(request):
     destiny_membership_id = DESTINY_MEMBERSHIP_ID
     components = COMPONENTS
 
-    destiny_inventory_item_definition = json.load(open('DestinyInventoryItemDefinition.json'))
+    destiny_inventory_item_definition = json.load(open('manifest/DestinyInventoryItemDefinition.json'))
 
     # repeat for the number of characters
     for i in range(len(CHARACTER_ID_LIST)):
@@ -129,7 +129,7 @@ def get_vendor_data(request):
         for j in range(len(VENDOR_HASH_LIST)):
             vendor_hash = VENDOR_HASH_LIST[j]
             if not Vendor.objects.filter(vendor_hash=vendor_hash).exists():
-                destiny_vendor_definition = json.load(open('DestinyVendorDefinition.json'))
+                destiny_vendor_definition = json.load(open('manifest/DestinyVendorDefinition.json'))
                 vendor_name = destiny_vendor_definition[str(vendor_hash)]['displayProperties']['name']
                 icon_url = destiny_vendor_definition[str(vendor_hash)]['displayProperties']['largeIcon']
                 Vendor.objects.create(vendor_hash=vendor_hash, vendor_name=vendor_name, icon_url=icon_url)
@@ -225,7 +225,7 @@ def get_limited_time_vendor_data(request):
     destiny_membership_id = DESTINY_MEMBERSHIP_ID
     components = COMPONENTS
 
-    destiny_inventory_item_definition = json.load(open('DestinyInventoryItemDefinition.json'))
+    destiny_inventory_item_definition = json.load(open('manifest/DestinyInventoryItemDefinition.json'))
 
     # repeat for the number of characters
     for i in range(len(CHARACTER_ID_LIST)):
@@ -236,7 +236,7 @@ def get_limited_time_vendor_data(request):
         for j in range(len(LIMITED_TIME_VENDOR_HASH_LIST)):
             vendor_hash = LIMITED_TIME_VENDOR_HASH_LIST[j]
             if not Vendor.objects.filter(vendor_hash=vendor_hash).exists():
-                destiny_vendor_definition = json.load(open('DestinyVendorDefinition.json'))
+                destiny_vendor_definition = json.load(open('manifest/DestinyVendorDefinition.json'))
                 vendor_name = destiny_vendor_definition[str(vendor_hash)]['displayProperties']['name']
                 icon_url = destiny_vendor_definition[str(vendor_hash)]['displayProperties']['largeIcon']
                 Vendor.objects.create(vendor_hash=vendor_hash, vendor_name=vendor_name, icon_url=icon_url)
