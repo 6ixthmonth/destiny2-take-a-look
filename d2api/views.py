@@ -9,7 +9,6 @@ from django.http import JsonResponse
 from django.utils import timezone
 from keras.models import load_model
 from requests_oauthlib import OAuth2Session, TokenUpdated
-from tensorflow import keras
 
 from d2api.models import Item, SalesItem, Vendor
 
@@ -45,28 +44,34 @@ STAT_HASH_LIST = [
 ]
 
 def get_manifest(request):
-    if not os.path.exists('manifest.json'):
-        print("Manifest file doesn't exist.")
+    file_name = 'manifest.json'
+
+    if not os.path.exists(file_name):
         response = requests.get(url=BASE_URL+MANIFEST_URL, headers=HEADERS)
-        with open('manifest.json', 'w') as f:
+        with open(file_name, 'w') as f:
             json.dump(response.json(), f, indent=4)
-            print("Manifest file has been saved.")
+        print("Manifest file has been saved.")
     else:
         print("Manifest file already exists.")
     return JsonResponse({})
 
 def get_definition(request):
+    if not os.path.exists('manifest.json'):
+        print("Download manifest file first.")
+        return JsonResponse({})
+    else:
+        manifest = json.load(open('manifest.json'))
+    
     body = json.loads(request.body)
     param = body['param']
     definition_name = 'Destiny' + "".join(word.capitalize() for word in param.split()) + 'Definition'
     file_name = definition_name + '.json'
+    
     if not os.path.exists(file_name):
-        print(f"{definition_name} file doesn't exist.")
-        manifest = json.load(open('manifest.json'))
         response = requests.get(url=BASE_URL+manifest['Response']['jsonWorldComponentContentPaths']['en'][definition_name])
         with open(file_name, 'w') as f:
             json.dump(response.json(), f, indent=4)
-            print(f"{definition_name} file has been saved.")
+        print(f"{definition_name} file has been saved.")
     else:
         print(f"{definition_name} file already exists.")
     return JsonResponse({})
