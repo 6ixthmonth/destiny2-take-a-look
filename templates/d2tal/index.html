@@ -4,23 +4,28 @@
 
 {% load static %}
 {% load d2api_extras %}
+
 {% block style %}
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css"rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css" rel="stylesheet">
+<!-- custom css -->
 <link href="{% static 'css/index.css' %}" rel="stylesheet">
 {% endblock style %}
 
 {% block script %}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+<!-- custom js -->
 <script src="{% static 'js/index.js' %}"></script>
 {% endblock script %}
 
 {% block body %}
+<!-- filter button -->
 <div class="fixed-top">
     <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Filter</button>
 </div>
 
+<!-- filter window -->
 <div id="offcanvasWithBothOptions" class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" aria-labelledby="offcanvasWithBothOptionsLabel">
     <div class="offcanvas-header">
         <h1 id="offcanvasWithBothOptionsLabel" class="offcanvas-title text-primary">Filter</h1>
@@ -228,7 +233,7 @@
             </div>
         </form>
     </div>
-</div>
+</div><!-- end of filter window -->
 
 <div class="container-fluid my-5 text-center">
     <!-- main title -->
@@ -390,98 +395,11 @@
             {% endif %}
         </ul>
     </nav>
-</div>
+
+</div><!-- end of container -->
 
 {% if user.is_authenticated %}
-<hr>
-<fieldset>
-    <legend>Manifest</legend>
-    <button onclick="getManifest();">Get Manifest</button>
-    <button onclick="getDefinition('class');">Get DestinyClassDefinition</button>
-    <button onclick="getDefinition('stat');">Get DestinyStatDefinition</button>
-    <button onclick="getDefinition('inventory item');">Get DestinyInventoryItemDefinition</button>
-    <button onclick="getDefinition('vendor');">Get DestinyVendorDefinition</button>
-</fieldset>
-<fieldset>
-    <legend>Authentication</legend>
-    <button onclick="getAuth();">Get Authorization</button>
-    <button onclick="fetchToken();">Fetch Token</button>
-    <button disabled="disabled">Refresh Token</button>
-</fieldset>
-<fieldset>
-    <legend>API</legend>
-    <button onclick="getVendorData();">Get Vendor Data</button>
-    <button onclick="getLimitedTimeVendorData();">Get Limited Time Vendor Data</button>
-</fieldset>
-<fieldset>
-    <legend>Datascience</legend>
-    <button onclick="predictItem(0);">Predict Titan item recommendation</button>
-    <button onclick="predictItem(1);">Predict Hunter item recommendation</button>
-    <button onclick="predictItem(2);">Predict Warlock item recommendation</button>
-</fieldset>
-<script>
-    // manifest functions
-    function getManifest() { $.ajax("{% url 'd2api:get_manifest' %}"); }
-    function getDefinition(param) {
-        $.ajax({
-            url: "{% url 'd2api:get_definition' %}",
-            type: "POST",
-            headers: {
-                'X-CSRFTOKEN': "{{ csrf_token }}"
-            },
-            data: JSON.stringify({
-                'param': param
-            })
-        });
-    }
-
-    // authentication functions
-    let accessToken = "";
-
-    function getAuth() {
-        $.ajax("{% url 'd2api:get_auth' %}"
-        ).done(function (data) {
-            location.href = data['auth_url'];
-        }).fail(function (e) {
-            console.log(e);
-        });
-    }
-
-    function fetchToken() {
-        $.ajax({
-            url: "{% url 'd2api:fetch_token' %}",
-            type: "post",
-            headers: {
-                'X-CSRFTOKEN': "{{ csrf_token }}"
-            },
-            data: JSON.stringify({
-                'auth_res': location.search
-            })
-        }).done(function (data) {
-            accessToken = data['access_token'];
-        }).fail(function (e) {
-            console.log(e);
-        });
-    }
-
-    // API functions
-    function getVendorData() { $.ajax("{% url 'd2api:get_vendor_data' %}"); }
-    function getLimitedTimeVendorData() { $.ajax("{% url 'd2api:get_limited_time_vendor_data' %}"); }
-
-    // Datascience functions
-    function predictItem(classType) {
-        $.ajax({
-            url: "{% url 'd2api:predict_item' %}",
-            type: "POST",
-            headers: {
-                'X-CSRFTOKEN': "{{ csrf_token }}"
-            },
-            data: JSON.stringify({
-                'classType': classType
-            })
-        });
-    }
-</script>
+{% include 'd2tal/console.html' %}
 {% endif %}
     
 {% endblock body %}
