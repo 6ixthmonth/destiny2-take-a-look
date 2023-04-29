@@ -12,6 +12,7 @@ class Item(models.Model):
     def __str__(self) -> str:
         return self.item_name
 
+
 class Vendor(models.Model):
     vendor_hash = models.BigIntegerField(primary_key=True)
     vendor_name = models.CharField(max_length=255)
@@ -19,7 +20,8 @@ class Vendor(models.Model):
 
     def __str__(self) -> str:
         return self.vendor_name
-    
+
+
 class SalesItem(models.Model):
     item_hash = models.ForeignKey(Item, on_delete=models.CASCADE)
     vendor_hash = models.ForeignKey(Vendor, on_delete=models.CASCADE)
