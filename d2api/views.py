@@ -56,6 +56,7 @@ def get_manifest(request):
     return JsonResponse({})
 
 def get_definition(request):
+    # check manifest file.
     if not os.path.exists('manifest/manifest.json'):
         print("Download manifest file first.")
         return JsonResponse({})
@@ -108,7 +109,7 @@ def calculate_sales_date():
     return sales_date
 
 def get_vendor_data(request):
-    # check whether sales item already exists or not.
+    # check whether sales item exists or not.
     sales_date = calculate_sales_date()
     if SalesItem.objects.filter(sales_date=sales_date).exists():
         print("data already exists.")
@@ -215,7 +216,7 @@ def calculate_limited_time_sales_date():
     return sales_date
 
 def get_limited_time_vendor_data(request):
-    # check whether sales item already exists or not.
+    # check whether sales item exists or not.
     sales_date = calculate_limited_time_sales_date()
     if SalesItem.objects.filter(sales_date=sales_date).exists():
         print("data already exists.")
