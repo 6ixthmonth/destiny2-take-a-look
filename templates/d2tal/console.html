@@ -1,4 +1,21 @@
 <hr>
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js"></script>
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth'
+        });
+        calendar.render();
+    });
+
+</script>
+<div id='calendar'></div>
+
+<hr>
+
 <fieldset>
     <legend>Manifest</legend>
     <button onclick="getManifest();">Get Manifest</button>
@@ -24,6 +41,7 @@
     <button onclick="predictItem(1);">Predict Hunter item recommendation</button>
     <button onclick="predictItem(2);">Predict Warlock item recommendation</button>
 </fieldset>
+
 
 <script>
     // manifest functions
