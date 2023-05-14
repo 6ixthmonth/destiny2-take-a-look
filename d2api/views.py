@@ -43,6 +43,23 @@ STAT_HASH_LIST = [
     4244567218,  # Strength
 ]
 
+def get_events(request):
+    response = {
+        'result': [
+            {
+                'title': 'A',
+                'start': '2023-01-01',
+                'end': '2023-01-01',
+            },
+            {
+                'title': 'B',
+                'start': '2023-01-01',
+                'end': '2023-01-02',
+            },
+        ]
+    }
+    return JsonResponse(response)
+
 def get_manifest(request):
     file_name = 'manifest/manifest.json'
 
