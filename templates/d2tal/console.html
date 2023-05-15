@@ -2,19 +2,30 @@
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
+    function getEvents() {
+        $.ajax({
+            url: "{% url 'd2api:get_events' %}",
+            type: "POST",
+            headers: {
+                'X-CSRFTOKEN': "{{ csrf_token }}"
+            },
+            success: renderCalendar
+        });
+    }
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      timeZone: 'UTC',
-      initialView: 'multiMonthYear',
-      editable: false
-    });
+    function renderCalendar(data) {
+        console.log(data.result);
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            timeZone: 'UTC',
+            initialView: 'multiMonthYear',
+            editable: true,
+            events: data.result
+        });
+        calendar.render();
+    }
 
-    calendar.render();
-  });
-
-
+    document.addEventListener('DOMContentLoaded', getEvents);
 </script>
 <div id='calendar'></div>
 
