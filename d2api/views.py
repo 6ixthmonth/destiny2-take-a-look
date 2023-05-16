@@ -44,19 +44,15 @@ STAT_HASH_LIST = [
 ]
 
 def get_events(request):
+    result = []
+    for salesitem in SalesItem.objects.all():
+        result.append({
+            'title': salesitem.vendor_hash.vendor_name,
+            'start': salesitem.sales_date.strftime("%Y-%m-%d"),
+            'end': (salesitem.sales_date + timedelta(days=7)).strftime("%Y-%m-%d"),
+        })
     response = {
-        'result': [
-            {
-                'title': 'A',
-                'start': '2023-01-01',
-                'end': '2023-01-01',
-            },
-            {
-                'title': 'B',
-                'start': '2023-01-01',
-                'end': '2023-01-02',
-            },
-        ]
+        'result': result
     }
     return JsonResponse(response)
 
