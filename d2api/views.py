@@ -45,11 +45,11 @@ STAT_HASH_LIST = [
 
 def get_events(request):
     result = []
-    for salesitem in SalesItem.objects.all():
+    for salesitem in SalesItem.objects.values('vendor_hash__vendor_name', 'sales_date'):
         result.append({
-            'title': salesitem.vendor_hash.vendor_name,
-            'start': salesitem.sales_date.strftime("%Y-%m-%d"),
-            'end': (salesitem.sales_date + timedelta(days=7)).strftime("%Y-%m-%d"),
+            'title': salesitem['vendor_hash__vendor_name'],
+            'start': salesitem['sales_date'].strftime("%Y-%m-%d"),
+            'end': (salesitem['sales_date'] + timedelta(days=7)).strftime("%Y-%m-%d"),
         })
     response = {
         'result': result
