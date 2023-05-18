@@ -45,16 +45,15 @@ STAT_HASH_LIST = [
 
 def get_events(request):
     result = []
-    for salesitem in SalesItem.objects.values('vendor_hash__vendor_name', 'sales_date'):
+    for salesitem in SalesItem.objects.values('vendor_hash__vendor_name', 'sales_date').distinct():
         result.append({
             'title': salesitem['vendor_hash__vendor_name'],
             'start': salesitem['sales_date'].strftime("%Y-%m-%d"),
             'end': (salesitem['sales_date'] + timedelta(days=7)).strftime("%Y-%m-%d"),
         })
-    response = {
+    return JsonResponse({
         'result': result
-    }
-    return JsonResponse(response)
+    })
 
 def get_manifest(request):
     file_name = 'manifest/manifest.json'
