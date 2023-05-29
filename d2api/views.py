@@ -48,8 +48,8 @@ def get_events(request):
     for salesitem in SalesItem.objects.values('vendor_hash__vendor_name', 'sales_date').distinct():
         result.append({
             'title': salesitem['vendor_hash__vendor_name'],
-            'start': salesitem['sales_date'].strftime("%Y-%m-%d"),
-            'end': (salesitem['sales_date'] + timedelta(days=7)).strftime("%Y-%m-%d"),
+            'start': salesitem['sales_date'].strftime("%Y-%m-%dT%H:%M:%SZ"),
+            'end': (salesitem['sales_date'] + timedelta(days=3)).strftime("%Y-%m-%dT%H:%M:%SZ") if salesitem['vendor_hash__vendor_name'] == 'Xûr' else (salesitem['sales_date'] + timedelta(days=6)).strftime("%Y-%m-%dT%H:%M:%SZ"),
         })
     return JsonResponse({
         'result': result
