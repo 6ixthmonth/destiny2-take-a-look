@@ -32,7 +32,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'd2api.apps.D2ApiConfig',
     'sslserver',
-    'django_celery_results',
 ]
 
 MIDDLEWARE = [
