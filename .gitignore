@@ -286,7 +286,7 @@ pyrightconfig.json
 
 
 ### Personal ignore files ###
-service.py
+# Destiny Definitions
 manifest.json
 DestinyClassDefinition.json
 DestinyInventoryItemDefinition.json
