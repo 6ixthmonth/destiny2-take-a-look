@@ -24,9 +24,11 @@ class HomeView(ListView):
         if vendor_list:
             queryset = queryset.filter(vendor_hash__vendor_name__in=vendor_list)
         start_date = self.request.GET.get('startDate')
+        if start_date:
+            queryset = queryset.filter(sales_date__gte=start_date)
         end_date = self.request.GET.get('endDate')
-        if start_date and end_date:
-            queryset = queryset.filter(sales_date__range=(start_date, end_date))
+        if end_date:
+            queryset = queryset.filter(sales_date__lte=end_date)
         min_mobility = self.request.GET.get('minMobility')
         if min_mobility:
             queryset = queryset.filter(mobility__gte=min_mobility)
@@ -82,9 +84,10 @@ class HomeView(ListView):
         if vendor_list:
             context['vendor'] = vendor_list
         start_date = self.request.GET.get('startDate')
-        end_date = self.request.GET.get('endDate')
-        if start_date and end_date:
+        if start_date:
             context['startDate'] = start_date
+        end_date = self.request.GET.get('endDate')
+        if end_date:
             context['endDate'] = end_date
         min_mobility = self.request.GET.get('minMobility')
         if min_mobility:
