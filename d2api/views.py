@@ -68,7 +68,7 @@ def get_manifest(request):
     return JsonResponse({})
 
 def get_definition(request):
-    # check manifest file.
+    # check manifest file whether exists or not.
     if not os.path.exists('manifest/manifest.json'):
         print("Download manifest file first.")
         return JsonResponse({})
