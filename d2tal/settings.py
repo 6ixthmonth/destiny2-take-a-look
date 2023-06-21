@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'd2api.apps.D2ApiConfig',
+    'dbapp.apps.DbappConfig',
     'sslserver',
 ]
 
