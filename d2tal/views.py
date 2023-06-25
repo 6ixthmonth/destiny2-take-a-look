@@ -1,6 +1,6 @@
 from django.views.generic import ListView
 
-from d2api.models import SalesItem
+from dbapp.models import SalesItem
 
 
 class HomeView(ListView):
