@@ -10,7 +10,7 @@ from django.utils import timezone
 from keras.models import load_model
 from requests_oauthlib import OAuth2Session, TokenUpdated
 
-from d2api.models import Item, SalesItem, Vendor
+from dbapp.models import Item, SalesItem, Vendor
 
 HEADERS = {'X-API-Key': settings.API_KEY}
 EXTRA = {'client_id': settings.CLIENT_ID, 'client_secret': settings.CLIENT_SECRET}
