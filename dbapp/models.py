@@ -42,4 +42,4 @@ class SalesItem(models.Model):
     pvp_recommendation = models.FloatField(default=0.0)
 
     class Meta:
-        db_table = "d2api_SalesItem"
+        db_table = "d2api_salesitem"
