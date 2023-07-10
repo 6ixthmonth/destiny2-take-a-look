@@ -324,12 +324,12 @@ def predict_item(request):
     class_type = body['classType']
     match class_type:
         case 0:
-            class_model = load_model("models/titan.h5")
+            class_model = load_model("weights/titan.h5")
         case 1:
-            class_model = load_model("models/hunter.h5")
+            class_model = load_model("weights/hunter.h5")
         case 2:
-            class_model = load_model("models/warlock.h5")
-    common_model = load_model("models/common.h5")
+            class_model = load_model("weights/warlock.h5")
+    common_model = load_model("weights/common.h5")
 
     item_list = SalesItem.objects.filter(item_hash__item_type__in=['Helmet', 'Gauntlets', 'Chest Armor', 'Leg Armor'], item_hash__class_type=class_type, pve_recommendation=0, pvp_recommendation=0)
     for item in item_list:
