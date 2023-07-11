@@ -9,8 +9,8 @@ class Item(models.Model):
     class_type = models.PositiveSmallIntegerField(default=0)
     icon_url = models.CharField(max_length=2083)
 
-    class Meta:
-        db_table = "d2api_item"
+    # class Meta:
+    #     db_table = "d2api_item"
 
     def __str__(self) -> str:
         return self.item_name
@@ -21,8 +21,8 @@ class Vendor(models.Model):
     vendor_name = models.CharField(max_length=255)
     icon_url = models.CharField(max_length=2083)
 
-    class Meta:
-        db_table = "d2api_vendor"
+    # class Meta:
+    #     db_table = "d2api_vendor"
 
     def __str__(self) -> str:
         return self.vendor_name
@@ -41,5 +41,5 @@ class SalesItem(models.Model):
     pve_recommendation = models.FloatField(default=0.0)
     pvp_recommendation = models.FloatField(default=0.0)
 
-    class Meta:
-        db_table = "d2api_salesitem"
+    # class Meta:
+    #     db_table = "d2api_salesitem"
