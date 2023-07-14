@@ -1,6 +1,6 @@
 <hr>
 
-<!-- fullcalendar -->
+<!-- FullCalendar -->
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js"></script>
 <script>
     // calendar functions
@@ -27,11 +27,11 @@
     document.addEventListener('DOMContentLoaded', getEvents);
 </script>
 <div id='calendar'></div>
-<!-- end of fullcalendar -->
+<!-- end of FullCalendar -->
 
 <hr>
 
-<!-- destiny2 api -->
+<!-- Bungie.Net API -->
 <fieldset>
     <legend>Manifest</legend>
     <button onclick="getManifest();">Get Manifest</button>
@@ -52,10 +52,16 @@
     <button onclick="getLimitedTimeVendorData();">Get Limited Time Vendor Data</button>
 </fieldset>
 <fieldset>
+    <legend>Maintenance</legend>
+    <button onclick="updateItem(0)">Update Titan item</button>
+    <button onclick="updateItem(1)">Update Hunter item</button>
+    <button onclick="updateItem(2)">Update Warlock item</button>
+</fieldset>
+<fieldset>
     <legend>Datascience</legend>
-    <button onclick="predictItem(0);">Predict Titan item recommendation</button>
-    <button onclick="predictItem(1);">Predict Hunter item recommendation</button>
-    <button onclick="predictItem(2);">Predict Warlock item recommendation</button>
+    <button onclick="predictSalesItem(0);">Predict Titan SalesItem recommendation</button>
+    <button onclick="predictSalesItem(1);">Predict Hunter SalesItem recommendation</button>
+    <button onclick="predictSalesItem(2);">Predict Warlock SalesItem recommendation</button>
 </fieldset>
 
 
@@ -71,7 +77,7 @@
             },
             data: JSON.stringify({
                 'param': param
-            })
+            }),
         });
     }
 
@@ -95,8 +101,8 @@
                 'X-CSRFTOKEN': "{{ csrf_token }}"
             },
             data: JSON.stringify({
-                'auth_res': location.search
-            })
+                'authRes': location.search
+            }),
         }).done(function (data) {
             accessToken = data['access_token'];
         }).fail(function (e) {
@@ -108,8 +114,22 @@
     function getVendorData() { $.ajax("{% url 'd2api:get_vendor_data' %}"); }
     function getLimitedTimeVendorData() { $.ajax("{% url 'd2api:get_limited_time_vendor_data' %}"); }
 
+    // Maintenance functions
+    function updateItem(classType) {
+        $.ajax({
+            url: "{% url 'd2api:update_item' %}",
+            type: "POST",
+            headers: {
+                'X-CSRFTOKEN': "{{ csrf_token }}"
+            },
+            data: JSON.stringify({
+                'classType': classType
+            }),
+        });
+    }
+
     // Datascience functions
-    function predictItem(classType) {
+    function predictSalesItem(classType) {
         $.ajax({
             url: "{% url 'd2api:predict_item' %}",
             type: "POST",
@@ -118,8 +138,8 @@
             },
             data: JSON.stringify({
                 'classType': classType
-            })
+            }),
         });
     }
 </script>
-<!-- end of destiny2 api -->
+<!-- end of Bungie.Net API -->
