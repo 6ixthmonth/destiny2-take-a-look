@@ -57,7 +57,6 @@ def get_events(request):
 
 def get_manifest(request):
     file_name = 'manifest/manifest.json'
-
     if not os.path.exists(file_name):
         response = requests.get(url=BASE_URL+MANIFEST_URL, headers=HEADERS)
         with open(file_name, 'w') as f:
@@ -98,7 +97,7 @@ def get_auth(request):
 def fetch_token(request):
     body = json.loads(request.body)
     oauth = OAuth2Session(client_id=EXTRA['client_id'], state=request.session['state'])
-    token = oauth.fetch_token(token_url=BASE_URL+TOKEN_URL, authorization_response=REDIRECT_URI+body['auth_res'], client_secret=EXTRA['client_secret'])
+    token = oauth.fetch_token(token_url=BASE_URL+TOKEN_URL, authorization_response=REDIRECT_URI+body['authRes'], client_secret=EXTRA['client_secret'])
     request.session['token'] = token
     return JsonResponse(token)
 
@@ -318,6 +317,10 @@ def get_limited_time_vendor_data(request):
 
                 new_sales_item.save()
     return JsonResponse({})
+
+def update_item(request):
+    body = json.loads(request.body)
+    class_type = body['classType']
 
 def predict_item(request):
     body = json.loads(request.body)
