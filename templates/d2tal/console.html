@@ -117,7 +117,7 @@
     // Maintenance functions
     function updateItem(classType) {
         $.ajax({
-            url: "{% url 'd2api:update_item' %}",
+            url: "{% url 'dbapp:update_item' %}",
             type: "POST",
             headers: {
                 'X-CSRFTOKEN': "{{ csrf_token }}"
