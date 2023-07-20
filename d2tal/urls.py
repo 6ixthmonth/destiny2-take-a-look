@@ -7,4 +7,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomeView.as_view(), name='home'),
     path('d2api/', include('d2api.urls')),
+    path('dbapp/', include('dbapp.urls')),
 ]
