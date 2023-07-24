@@ -15,23 +15,18 @@
 - Django
 - django-environ
 - django-sslserver
-- djangorestframework
 - requests-oauthlib
-- celery
-- django-celery-results
 
 - gunicorn
 - mysqlclient
 
-- matplotlib
 - pandas
-
 - scikit-learn
 - tensorflow
 
 ### Database
 
-- MySQL
+- PostgreSQL
 
 ### Service
 
