@@ -28,6 +28,7 @@
 
 ### Service
 
+- Nginx
 - AWS LightSail
 - AWS RDS
 - AWS Route 53
