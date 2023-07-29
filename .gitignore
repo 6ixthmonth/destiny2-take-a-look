@@ -288,3 +288,6 @@ pyrightconfig.json
 ### Personal ignore files ###
 # Destiny Definitions
 manifest/
+
+# Training weights
+weights/
