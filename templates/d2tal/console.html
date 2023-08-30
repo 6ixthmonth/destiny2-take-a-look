@@ -96,7 +96,7 @@
     function fetchToken() {
         $.ajax({
             url: "{% url 'd2api:fetch_token' %}",
-            type: "post",
+            type: "POST",
             headers: {
                 'X-CSRFTOKEN': "{{ csrf_token }}"
             },
