@@ -118,7 +118,7 @@
     function updateItem(classType) {
         $.ajax({
             url: "{% url 'dbapp:update_items' %}",
-            type: "POST",
+            type: "PATCH",
             headers: {
                 'X-CSRFTOKEN': "{{ csrf_token }}"
             },
