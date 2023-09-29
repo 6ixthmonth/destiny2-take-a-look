@@ -16,6 +16,7 @@
 - requests-oauthlib
 
 - gunicorn
+- psycopg
 - mysqlclient
 
 - pandas
@@ -25,6 +26,7 @@
 ### Database
 
 - PostgreSQL
+- MySQL
 
 ### Service
 
