@@ -67,4 +67,3 @@
   - output layer는 0에서 1 사이의 값을 가져야 하기 때문에 activation function으로 sigmoid를 사용했다.
   - 다른 layer는 activation function으로 보편적으로 많이 사용하는 relu를 사용했다.
   - optimizer function과 loss 또한 보편적으로 많이 사용하는 adam, mse로 compile했다.
-- 6종류의 능력치는 각각 최소 2부터 최대 30까지의 범위에서 임의의 값을 가지기 때문에 MinMaxScaler를 사용하여 스케일링한다.
