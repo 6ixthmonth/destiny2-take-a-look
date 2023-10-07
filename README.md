@@ -64,4 +64,3 @@
   - 300개의 뉴런을 가지는 세 번째 hidden layer.
   - 2개의 뉴런을 가지는 output layer(PVE 및 PVP 추천도에 대응).
   - 총 252,202개의 학습 가능한 가중치를 가지는 DNN 모델로 구성.
-  - output layer는 0에서 1 사이의 값을 가져야 하기 때문에 activation function으로 sigmoid를 사용했다.
