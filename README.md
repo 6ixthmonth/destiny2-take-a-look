@@ -59,4 +59,3 @@
   - 200개의 뉴런을 가지는 첫 번째 hidden layer.
   - 500개의 뉴런을 가지는 두 번째 hidden layer.
   - 300개의 뉴런을 가지는 세 번째 hidden layer.
-  - 2개의 뉴런을 가지는 output layer(PVE 및 PVP 추천도에 대응).
