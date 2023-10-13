@@ -58,4 +58,3 @@
   - 3개의 뉴런을 가지는 input layer(각각의 능력치에 대응).
   - 200개의 뉴런을 가지는 첫 번째 hidden layer.
   - 500개의 뉴런을 가지는 두 번째 hidden layer.
-  - 300개의 뉴런을 가지는 세 번째 hidden layer.
