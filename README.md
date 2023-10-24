@@ -2,7 +2,7 @@
 
 ![overview](https://user-images.githubusercontent.com/42332051/232289232-0e53c843-edca-4dd0-9427-dd212386fa8e.png)
 
-*Bungie*의 1인칭 슈팅 온라인 게임 *Destiny 2*에서는 일부 상인들이 매주 임의의 무기 및 방어구 아이템을 판매한다. 이 웹 애플리케이션은 *Bungie*에서 제공하는 공식 API인 *Bungie.net Platform API*를 사용하여 판매 아이템 정보를 가져와서 데이터베이스에 기록, 조회할 수 있으며, 나아가 인공지능을 기반으로 구매를 추천하는 기능을 제공한다.
+*Bungie*의 1인칭 슈팅 온라인 게임 *Destiny 2*에서는 일부 상인들이 매주 임의의 무기 및 방어구 아이템을 판매한다. 이 웹 애플리케이션은 *Bungie*에서 제공하는 공식 API인 *Bungie.net Platform API*를 통해 판매 아이템 데이터를 취득해서 데이터베이스에 기록, 조회할 수 있으며, 나아가 인공지능을 기반으로 구매를 추천하는 기능을 제공한다.
 
 ---
 
