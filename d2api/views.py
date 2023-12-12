@@ -173,6 +173,7 @@ def get_vendor_data(request):
                     continue
                 print(f"\t\t{item_hash=}")
 
+                # Create new Item data if not exists in DB.
                 if not Item.objects.filter(item_hash=item_hash).exists():
                     item = destiny_inventory_item_definition[str(item_hash)]
                     item_name = item['displayProperties']['name']
@@ -181,6 +182,7 @@ def get_vendor_data(request):
                     icon_url = item['displayProperties']['icon']
                     Item.objects.create(item_hash=item_hash, item_name=item_name, item_type=item_type, class_type=class_type, icon_url=icon_url)
 
+                # Create new SalesItem data to insert into DB.
                 new_sales_item = SalesItem.objects.create(item_hash_id=item_hash, vendor_hash_id=vendor_hash)
 
                 # set stats.
@@ -205,6 +207,7 @@ def get_vendor_data(request):
                 # set sales date.
                 new_sales_item.sales_date = sales_date
 
+                # Insert into DB.
                 new_sales_item.save()
     return JsonResponse({})
 
