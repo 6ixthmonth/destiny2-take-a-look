@@ -286,6 +286,7 @@ def get_limited_time_vendor_data(request):
                     continue
                 print(f"\t\t{item_hash=}")
 
+                # Create new Item data if not exists in DB.
                 if not Item.objects.filter(item_hash=item_hash).exists():
                     item = destiny_inventory_item_definition[str(item_hash)]
                     item_name = item['displayProperties']['name']
