@@ -295,6 +295,7 @@ def get_limited_time_vendor_data(request):
                     icon_url = item['displayProperties']['icon']
                     Item.objects.create(item_hash=item_hash, item_name=item_name, item_type=item_type, class_type=class_type, icon_url=icon_url)
 
+                # Create new SalesItem data to insert into DB.
                 new_sales_item = SalesItem.objects.create(item_hash_id=item_hash, vendor_hash_id=vendor_hash)
 
                 # setting stats.
