@@ -298,7 +298,7 @@ def get_limited_time_vendor_data(request):
                 # Create new SalesItem data to insert into DB.
                 new_sales_item = SalesItem.objects.create(item_hash_id=item_hash, vendor_hash_id=vendor_hash)
 
-                # setting stats.
+                # set stats.
                 stats = response['itemComponents']['stats']['data'][item_index]['stats']
                 for stat_hash in STAT_HASH_LIST:
                     match(STAT_HASH_LIST.index(stat_hash)):
@@ -317,9 +317,10 @@ def get_limited_time_vendor_data(request):
                         case _:
                             pass
                 
-                # setting sales date.
+                # set sales date.
                 new_sales_item.sales_date = sales_date
 
+                # Insert into DB.
                 new_sales_item.save()
     return JsonResponse({})
 
