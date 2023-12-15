@@ -325,8 +325,7 @@ def get_limited_time_vendor_data(request):
     return JsonResponse({})
 
 def update_item(request):
-    body = json.loads(request.body)
-    class_type = body['classType']
+    return JsonResponse({})
 
 def predict_item(request):
     body = json.loads(request.body)
