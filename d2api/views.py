@@ -329,6 +329,7 @@ def update_item(request):
 
 def predict_item(request):
     body = json.loads(request.body)
+
     class_type = body['classType']
     match class_type:
         case 0:
