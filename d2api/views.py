@@ -324,9 +324,6 @@ def get_limited_time_vendor_data(request):
                 new_sales_item.save()
     return JsonResponse({})
 
-def update_item(request):
-    return JsonResponse({})
-
 def predict_item(request):
     body = json.loads(request.body)
 
@@ -352,4 +349,7 @@ def predict_item(request):
         item.pvp_recommendation = round((result1[0][1] + result2[0][1]) / 2, 6)
         item.save()
 
+    return JsonResponse({})
+
+def update_item(request):
     return JsonResponse({})
