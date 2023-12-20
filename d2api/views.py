@@ -211,7 +211,8 @@ def get_vendor_data(request):
                 new_sales_item.save()
     return JsonResponse({})
 
-def calculate_limited_time_sales_date():
+def get_limited_time_vendor_data(request):
+    # calculate sales date
     today = timezone.now()
     weekday = today.weekday()
     if weekday > 4:
@@ -227,11 +228,8 @@ def calculate_limited_time_sales_date():
         else:
             sales_date = today
     sales_date = sales_date.replace(hour=17, minute=0, second=0, microsecond=0)  # pst 9 = utc 17 = kst 26
-    return sales_date
-
-def get_limited_time_vendor_data(request):
+    
     # check whether sales item exists or not.
-    sales_date = calculate_limited_time_sales_date()
     if SalesItem.objects.filter(sales_date=sales_date).exists():
         print("data already exists.")
         return JsonResponse({})
